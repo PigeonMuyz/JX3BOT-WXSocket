@@ -14,7 +14,11 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <configuration>
-                    <!-- 在此处添加您的配置 -->
+                    <transformers>
+                        <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                            <mainClass>io.github.pigeonmuyz.Main</mainClass> <!-- 指定主类 -->
+                        </transformer>
+                    </transformers>
                 </configuration>
                 <executions>
                     <execution>
@@ -27,6 +31,7 @@
             </plugin>
         </plugins>
     </build>
+
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>

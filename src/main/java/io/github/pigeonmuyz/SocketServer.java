@@ -95,7 +95,7 @@ public class SocketServer extends WebSocketServer {
      * @param url 链接
      * @return 文件id
      */
-    private String getFileId(String url){
+    private static String getFileId(String url){
         try {
             JsonNode jn = new ObjectMapper().readTree(HttpTool.postData("http://pigeon-wechat:8000/",String.format("{\"action\":\"upload_file\",\"params\":{\"type\":\"url\",\"name\":\"1.png\",\"url\":\"%s\"}}",url)));
             return jn.get("data").get("file_id").asText();
@@ -109,7 +109,7 @@ public class SocketServer extends WebSocketServer {
      * @param messageType 消息类型
      * @param userType 用户类型
      */
-    private void sendMessage(MessageType messageType, UserType userType){
+    private static void sendMessage(MessageType messageType, UserType userType){
         try {
             switch (messageType.getType()){
                 case "image":
