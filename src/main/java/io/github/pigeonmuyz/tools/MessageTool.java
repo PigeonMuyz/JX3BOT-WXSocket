@@ -21,14 +21,14 @@ static String temp;
     public static MessageType singleCommand(String command, String userID, String channelID, String server) {
         try {
             if (channelID != null){
-                rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/user/get?KOOKChannelID="+channelID));
+                rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/user/get?GroupID="+channelID));
                 if (rootNode.get("data")!=null){
-                    server = rootNode.get("data").get(0).get("server").asText();
+                    server = rootNode.get("data").get("server").asText();
                 }
             }else{
-                rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/user/get?KOOKID="+userID));
+                rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/user/get?WXID="+userID));
                 if (rootNode.get("data")!=null){
-                    server = rootNode.get("data").get(0).get("server").asText();
+                    server = rootNode.get("data").get("server").asText();
                 }
             }
             switch(command){
@@ -253,14 +253,14 @@ static String temp;
     public static MessageType multiCommand(String[] command,String userID,String guildID,String server) {
         try{
             if (guildID != null){
-                rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/user/get?KOOKChannelID="+guildID));
+                rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/user/get?GroupID="+guildID));
                 if (rootNode.get("data")!=null){
-                    server = rootNode.get("data").get(0).get("server").asText();
+                    server = rootNode.get("data").get("server").asText();
                 }
             }else{
-                rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/user/get?KOOKID="+userID));
+                rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/user/get?WXID="+userID));
                 if (rootNode.get("data")!=null){
-                    server = rootNode.get("data").get(0).get("server").asText();
+                    server = rootNode.get("data").get("server").asText();
                 }
             }
             switch (command[0]){
