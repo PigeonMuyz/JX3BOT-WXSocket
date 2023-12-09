@@ -35,7 +35,6 @@ public class SocketServer extends WebSocketServer {
 
     @Override
     public void onClose(WebSocket conn, int code, String reason, boolean remote) {
-//        broadcast(conn + " has left the room!");
         System.out.println("WS服务器关闭");
 
     }
