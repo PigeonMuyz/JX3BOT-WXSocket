@@ -20,6 +20,17 @@ public class MessageTool {
 static String temp;
     public static MessageType singleCommand(String command, String userID, String channelID, String server) {
         try {
+            if (channelID != null){
+                rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/user/get?KOOKChannelID="+channelID));
+                if (rootNode.get("data")!=null){
+                    server = rootNode.get("data").get(0).get("server").asText();
+                }
+            }else{
+                rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/user/get?KOOKID="+userID));
+                if (rootNode.get("data")!=null){
+                    server = rootNode.get("data").get(0).get("server").asText();
+                }
+            }
             switch(command){
                 //region 日常
                 case "日常":
@@ -241,6 +252,17 @@ static String temp;
 
     public static MessageType multiCommand(String[] command,String userID,String guildID,String server) {
         try{
+            if (guildID != null){
+                rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/user/get?KOOKChannelID="+guildID));
+                if (rootNode.get("data")!=null){
+                    server = rootNode.get("data").get(0).get("server").asText();
+                }
+            }else{
+                rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/user/get?KOOKID="+userID));
+                if (rootNode.get("data")!=null){
+                    server = rootNode.get("data").get(0).get("server").asText();
+                }
+            }
             switch (command[0]){
                 //region 绑定服务器
                 case "绑定":
@@ -257,7 +279,7 @@ static String temp;
                     }
 
                     rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/user/get?WXID="+userID));
-                    if (rootNode.get("code").asInt() == 200 && rootNode.get("data").get(0).get("WXID") != null){
+                    if (rootNode.get("code").asInt() == 200 && rootNode.get("data") != null){
                         if (guildID == null && rootNode.get("data").get(0).get("server") != null){
                             //用户已经绑定过了，走用户更新流程
                             HttpTool.getData("http://pigeon-server-developer:25555/user/update?WXID="+userID+"&server="+command[1]);
