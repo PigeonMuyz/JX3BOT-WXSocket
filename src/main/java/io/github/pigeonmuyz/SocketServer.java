@@ -69,11 +69,11 @@ public class SocketServer extends WebSocketServer {
             // 判断指令是单行还是多行
             if (command.length > 1){
                 messageType = MessageTool.multiCommand(command,jsonNode.get("user_id").asText(),groupId,defaultServer);
+                sendMessage(messageType,userType);
             }else{
                 messageType = MessageTool.singleCommand(jsonNode.get("alt_message").asText(),jsonNode.get("user_id").asText(),groupId,defaultServer);
+                sendMessage(messageType,userType);
             }
-            sendMessage(messageType,userType);
-
         } catch (JsonProcessingException e) {
             //读取不了消息
             throw new RuntimeException(e);
