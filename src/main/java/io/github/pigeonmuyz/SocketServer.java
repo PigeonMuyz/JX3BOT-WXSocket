@@ -70,9 +70,11 @@ public class SocketServer extends WebSocketServer {
             if (command.length > 1){
                 messageType = MessageTool.multiCommand(command,jsonNode.get("user_id").asText(),groupId,defaultServer);
                 sendMessage(messageType,userType);
+                messageType.setType("null");
             }else{
                 messageType = MessageTool.singleCommand(jsonNode.get("alt_message").asText(),jsonNode.get("user_id").asText(),groupId,defaultServer);
                 sendMessage(messageType,userType);
+                messageType.setType("null");
             }
         } catch (JsonProcessingException e) {
             //读取不了消息
