@@ -59,9 +59,11 @@ public class SocketServer extends WebSocketServer {
             if (jsonNode.get("group_id").isEmpty() || jsonNode.get("group_id") == null){
                 groupId = null;
                 userType = new UserType(jsonNode.get("user_id").asText(),"private");
+                System.out.println("私聊消息");
             }else {
                 groupId = jsonNode.get("group_id").asText();
                 userType = new UserType(groupId,"group");
+                System.out.println("群聊消息");
             }
             // 判断指令是单行还是多行
             if (command.length > 1){
