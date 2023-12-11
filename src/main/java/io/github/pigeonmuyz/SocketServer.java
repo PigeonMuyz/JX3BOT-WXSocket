@@ -115,20 +115,20 @@ public class SocketServer extends WebSocketServer {
                     String fileIdTemp = getFileId(messageType.getContent());
                     switch (userType.getType()){
                         case "group":
-                            HttpTool.postData("",String.format("{\"action\":\"send_message\",\"params\":{\"detail_type\":\"group\",\"group_id\":\"%s\",\"message\":[{\"type\":\"image\",\"data\":{\"file_id\":\"%s\"}}]}}",userType.getId(),fileIdTemp));
+                            HttpTool.postData("http://pigeon-wechat:8000/",String.format("{\"action\":\"send_message\",\"params\":{\"detail_type\":\"group\",\"group_id\":\"%s\",\"message\":[{\"type\":\"image\",\"data\":{\"file_id\":\"%s\"}}]}}",userType.getId(),fileIdTemp));
                             break;
                         case "private":
-                            HttpTool.postData("",String.format("{\"action\":\"send_message\",\"params\":{\"detail_type\":\"private\",\"user_id\":\"%s\",\"message\":[{\"type\":\"image\",\"data\":{\"file_id\":\"%s\"}}]}}",userType.getId(),fileIdTemp));
+                            HttpTool.postData("http://pigeon-wechat:8000/",String.format("{\"action\":\"send_message\",\"params\":{\"detail_type\":\"private\",\"user_id\":\"%s\",\"message\":[{\"type\":\"image\",\"data\":{\"file_id\":\"%s\"}}]}}",userType.getId(),fileIdTemp));
                             break;
                     }
                     break;
                 case "text":
                     switch (userType.getType()){
                         case "group":
-                            HttpTool.postData("",String.format("{\"action\":\"send_message\",\"params\":{\"detail_type\":\"group\",\"group_id\":\"%s\",\"message\":[{\"type\":\"text\",\"data\":{\"text\":\"%s\"}}]}}",userType.getId(),messageType.getContent()));
+                            HttpTool.postData("http://pigeon-wechat:8000/",String.format("{\"action\":\"send_message\",\"params\":{\"detail_type\":\"group\",\"group_id\":\"%s\",\"message\":[{\"type\":\"text\",\"data\":{\"text\":\"%s\"}}]}}",userType.getId(),messageType.getContent()));
                             break;
                         case "private":
-                            HttpTool.postData("",String.format("{\"action\":\"send_message\",\"params\":{\"detail_type\":\"private\",\"user_id\":\"%s\",\"message\":[{\"type\":\"text\",\"data\":{\"text\":\"%s\"}}]}}",userType.getId(),messageType.getContent()));
+                            HttpTool.postData("http://pigeon-wechat:8000/",String.format("{\"action\":\"send_message\",\"params\":{\"detail_type\":\"private\",\"user_id\":\"%s\",\"message\":[{\"type\":\"text\",\"data\":{\"text\":\"%s\"}}]}}",userType.getId(),messageType.getContent()));
                             break;
                     }
                     break;
