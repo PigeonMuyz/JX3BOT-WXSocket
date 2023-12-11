@@ -47,14 +47,14 @@ public class SocketServer extends WebSocketServer {
     public void onMessage(WebSocket conn, String message) {
         //处理指令
         try {
-            String groupId;
+            String groupId = "";
             //读取消息
             JsonNode jsonNode = new ObjectMapper().readTree(message);
             String[] command = jsonNode.get("alt_message").asText().split(" ");
             System.out.println("原文字："+jsonNode.get("alt_message").asText());
             System.out.println("处理后的文字数组："+command.toString());
             MessageType messageType;
-            UserType userType;
+            UserType userType = null;
             //判断是否是群聊消息
             switch(jsonNode.get("detail_type").asText()){
                 case "private":
