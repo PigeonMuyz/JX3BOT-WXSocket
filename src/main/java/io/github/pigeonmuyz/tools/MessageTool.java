@@ -96,7 +96,7 @@ static String temp;
                 case "招募":
                 case "团队招募":
                     
-                    rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/api/teamactivity?server="+server));
+                    rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/image/api/member/recruit?server="+server));
                     System.out.println(rootNode.toString());
                     switch (rootNode.get("code").asInt()){
                         case 200:
