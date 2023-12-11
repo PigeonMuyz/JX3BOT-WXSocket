@@ -22,13 +22,15 @@ static String temp;
         try {
             if (channelID != null){
                 rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/user/get?GroupID="+channelID));
-                if (rootNode.get("data")!=null){
-                    server = rootNode.get("data").get("server").asText();
+                if (!rootNode.get("data").isEmpty()){
+                    dataNode = rootNode.get("data");
+                    server = dataNode.get("server").asText();
                 }
             }else{
                 rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/user/get?WXID="+userID));
-                if (rootNode.get("data")!=null){
-                    server = rootNode.get("data").get("server").asText();
+                if (!rootNode.get("data").isEmpty()){
+                    dataNode = rootNode.get("data");
+                    server = dataNode.get("server").asText();
                 }
             }
             switch(command){
@@ -254,13 +256,15 @@ static String temp;
         try{
             if (guildID != null){
                 rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/user/get?GroupID="+guildID));
-                if (rootNode.get("data")!=null){
-                    server = rootNode.get("data").get("server").asText();
+                if (!rootNode.get("data").isEmpty()){
+                    dataNode = rootNode.get("data");
+                    server = dataNode.get("server").asText();
                 }
             }else{
                 rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/user/get?WXID="+userID));
-                if (rootNode.get("data")!=null){
-                    server = rootNode.get("data").get("server").asText();
+                if (!rootNode.get("data").isEmpty()){
+                    dataNode = rootNode.get("data");
+                    server = dataNode.get("server").asText();
                 }
             }
             switch (command[0]){
