@@ -49,8 +49,10 @@ public class SocketServer extends WebSocketServer {
         try {
             String groupId;
             //读取消息
-            JsonNode jsonNode = new ObjectMapper().readTree("message");
-            String[] command = jsonNode.get("message").get("data").get("message").asText().split(" ");
+            JsonNode jsonNode = new ObjectMapper().readTree(message);
+            String[] command = jsonNode.get("alt_message").asText().split(" ");
+            System.out.println("原文字："+jsonNode.get("alt_message").asText());
+            System.out.println("处理后的文字数组："command.toString());
             MessageType messageType;
             UserType userType;
             //判断是否是群聊消息
@@ -65,7 +67,7 @@ public class SocketServer extends WebSocketServer {
             if (command.length > 1){
                 messageType = MessageTool.multiCommand(command,jsonNode.get("user_id").asText(),groupId,defaultServer);
             }else{
-                messageType = MessageTool.singleCommand(jsonNode.get("message").get("data").get("message").asText(),jsonNode.get("user_id").asText(),groupId,defaultServer);
+                messageType = MessageTool.singleCommand(jsonNode.get("alt_message").asText(),jsonNode.get("user_id").asText(),groupId,defaultServer);
             }
             sendMessage(messageType,userType);
 
