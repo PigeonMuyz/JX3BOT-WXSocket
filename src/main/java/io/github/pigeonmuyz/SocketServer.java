@@ -47,28 +47,35 @@ public class SocketServer extends WebSocketServer {
     public void onMessage(WebSocket conn, String message) {
         //处理指令
         try {
-            String groupId;
+            String groupId = "";
             //读取消息
-            JsonNode jsonNode = new ObjectMapper().readTree("message");
-            String[] command = jsonNode.get("message").get("data").get("message").asText().split(" ");
+            JsonNode jsonNode = new ObjectMapper().readTree(message);
+            String[] command = jsonNode.get("alt_message").asText().split(" ");
+            System.out.println("原文字："+jsonNode.get("alt_message").asText());
+            System.out.println("处理后的文字数组："+command.toString());
             MessageType messageType;
-            UserType userType;
+            UserType userType = null;
             //判断是否是群聊消息
-            if (jsonNode.get("group_id").isEmpty() || jsonNode.get("group_id") == null){
-                groupId = null;
-                userType = new UserType(jsonNode.get("user_id").asText(),"private");
-            }else {
-                groupId = jsonNode.get("group_id").asText();
-                userType = new UserType(groupId,"group");
+            switch(jsonNode.get("detail_type").asText()){
+                case "private":
+                    groupId = null;
+                    userType = new UserType(jsonNode.get("user_id").asText(),"private");
+                    break;
+                case "group":
+                    groupId = jsonNode.get("group_id").asText();
+                    userType = new UserType(groupId,"group");
+                    break;
             }
             // 判断指令是单行还是多行
             if (command.length > 1){
                 messageType = MessageTool.multiCommand(command,jsonNode.get("user_id").asText(),groupId,defaultServer);
+                sendMessage(messageType,userType);
+                messageType.setType("null");
             }else{
-                messageType = MessageTool.singleCommand(jsonNode.get("message").get("data").get("message").asText(),jsonNode.get("user_id").asText(),groupId,defaultServer);
+                messageType = MessageTool.singleCommand(jsonNode.get("alt_message").asText(),jsonNode.get("user_id").asText(),groupId,defaultServer);
+                sendMessage(messageType,userType);
+                messageType.setType("null");
             }
-            sendMessage(messageType,userType);
-
         } catch (JsonProcessingException e) {
             //读取不了消息
             throw new RuntimeException(e);
@@ -113,9 +120,11 @@ public class SocketServer extends WebSocketServer {
             switch (messageType.getType()){
                 case "image":
                     String fileIdTemp = getFileId(messageType.getContent());
+                    System.out.println("ImageID: "+fileIdTemp);
                     switch (userType.getType()){
                         case "group":
                             HttpTool.postData("http://pigeon-wechat:8000/",String.format("{\"action\":\"send_message\",\"params\":{\"detail_type\":\"group\",\"group_id\":\"%s\",\"message\":[{\"type\":\"image\",\"data\":{\"file_id\":\"%s\"}}]}}",userType.getId(),fileIdTemp));
+                            System.out.println("发送完毕");
                             break;
                         case "private":
                             HttpTool.postData("http://pigeon-wechat:8000/",String.format("{\"action\":\"send_message\",\"params\":{\"detail_type\":\"private\",\"user_id\":\"%s\",\"message\":[{\"type\":\"image\",\"data\":{\"file_id\":\"%s\"}}]}}",userType.getId(),fileIdTemp));
