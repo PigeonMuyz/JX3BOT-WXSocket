@@ -56,7 +56,7 @@ public class SocketServer extends WebSocketServer {
             MessageType messageType;
             UserType userType;
             //判断是否是群聊消息
-            Switch(jsonNode.get("detail_type").asText()){
+            switch(jsonNode.get("detail_type").asText()){
                 case "private":
                     groupId = null;
                     userType = new UserType(jsonNode.get("user_id").asText(),"private");
