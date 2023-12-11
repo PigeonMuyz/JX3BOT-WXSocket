@@ -52,7 +52,7 @@ public class SocketServer extends WebSocketServer {
             JsonNode jsonNode = new ObjectMapper().readTree(message);
             String[] command = jsonNode.get("alt_message").asText().split(" ");
             System.out.println("原文字："+jsonNode.get("alt_message").asText());
-            System.out.println("处理后的文字数组："command.toString());
+            System.out.println("处理后的文字数组："+command.toString());
             MessageType messageType;
             UserType userType;
             //判断是否是群聊消息
