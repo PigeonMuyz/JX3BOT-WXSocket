@@ -56,14 +56,15 @@ public class SocketServer extends WebSocketServer {
             MessageType messageType;
             UserType userType;
             //判断是否是群聊消息
-            if (jsonNode.get("group_id").isEmpty() || jsonNode.get("group_id") == null){
-                groupId = null;
-                userType = new UserType(jsonNode.get("user_id").asText(),"private");
-                System.out.println("私聊消息");
-            }else {
-                groupId = jsonNode.get("group_id").asText();
-                userType = new UserType(groupId,"group");
-                System.out.println("群聊消息");
+            Switch(jsonNode.get("detail_type").asText()){
+                case "private":
+                    groupId = null;
+                    userType = new UserType(jsonNode.get("user_id").asText(),"private");
+                    break;
+                case "group":
+                    groupId = jsonNode.get("group_id").asText();
+                    userType = new UserType(groupId,"group");
+                    break;
             }
             // 判断指令是单行还是多行
             if (command.length > 1){
