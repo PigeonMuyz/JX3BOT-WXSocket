@@ -115,9 +115,11 @@ public class SocketServer extends WebSocketServer {
             switch (messageType.getType()){
                 case "image":
                     String fileIdTemp = getFileId(messageType.getContent());
+                    System.out.println("ImageID: "+fileIdTemp);
                     switch (userType.getType()){
                         case "group":
                             HttpTool.postData("http://pigeon-wechat:8000/",String.format("{\"action\":\"send_message\",\"params\":{\"detail_type\":\"group\",\"group_id\":\"%s\",\"message\":[{\"type\":\"image\",\"data\":{\"file_id\":\"%s\"}}]}}",userType.getId(),fileIdTemp));
+                            System.out.println("发送完毕");
                             break;
                         case "private":
                             HttpTool.postData("http://pigeon-wechat:8000/",String.format("{\"action\":\"send_message\",\"params\":{\"detail_type\":\"private\",\"user_id\":\"%s\",\"message\":[{\"type\":\"image\",\"data\":{\"file_id\":\"%s\"}}]}}",userType.getId(),fileIdTemp));
