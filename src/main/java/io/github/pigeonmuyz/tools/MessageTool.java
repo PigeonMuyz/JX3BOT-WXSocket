@@ -766,7 +766,7 @@ static String temp;
                     switch (rootNode.get("code").asInt()){
                         case 200:
                             dataNode = rootNode.path("data");
-                            System.out.println("dataNode.get("context").asText()");
+                            System.out.println(dataNode.get("context").asText());
                             mt = new MessageType("text",dataNode.get("context").asText());
                             break;
                         default:
