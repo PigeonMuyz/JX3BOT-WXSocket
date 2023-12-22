@@ -54,6 +54,7 @@ static String temp;
                                     + "五人秘境：" + dataNode.get("team").get(1).asText() + "\n"
                                     + "十人秘境：" + dataNode.get("team").get(2).asText() + "\n"
                                     + "今天是" + dataNode.get("date").asText() + " 星期" + dataNode.get("week").asText();
+                            System.out.println(temp);
                             mt = new MessageType("text",temp);
                             break;
                         default:
@@ -128,6 +129,7 @@ static String temp;
                                     + String.format("地点：%s · %s\n", dataNode.get("event").get(2).get("map_name").asText(), dataNode.get("event").get(2).get("site").asText())
                                     + "开始时间：" + dataNode.get("event").get(2).get("time").asText();
                             mt = new MessageType("text",temp);
+                            System.out.println(temp);
                             break;
                         default:
                             mt = new MessageType("text","服务器响应异常，请联系管理或者核对参数后再次重试");
@@ -161,6 +163,7 @@ static String temp;
                             + "4. 终于增加了交易行价格！！！（仅支持工具，相关副本和职业攻略帖子）\n"
                             + "5. I人拯救计划（第二次重构版的机器人）正在进行中！可以密聊作者获取体验资格\n"
                             + "6. I人拯救计划将附带独一无二的iPhone通知推送！";
+                    System.out.println(temp);
                     mt = new MessageType("text",temp);
 
                     break;
@@ -196,6 +199,7 @@ static String temp;
                             + "楚天行侠：行侠|楚天社|楚天行侠\n"
                             + "宠物游历：游历 [地图(必选)]\n"
                             + "剑三鸽鸽 Remake 1.0";
+                    System.out.println(temp);
                     mt = new MessageType("text",temp);
                     break;
                 //endregion
@@ -273,9 +277,14 @@ static String temp;
                     if (guildID != null){
                         JsonNode jn = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/user/get?GroupID="+guildID));
                         if (jn.get("code").asInt() == 200){
-                            //群组已经绑定过了，走频道更新流程
-                            HttpTool.getData("http://pigeon-server-developer:25555/user/update?GroupID="+guildID+"&server="+command[1]);
-                            mt = new MessageType("text","绑定更新成功");
+                            if (!jn.get("data").isEmpty()){
+                                //群组已经绑定过了，走频道更新流程
+                                HttpTool.getData("http://pigeon-server-developer:25555/user/update?GroupID="+guildID+"&server="+command[1]);
+                                mt = new MessageType("text","绑定更新成功");
+                            }else{
+                                HttpTool.getData("http://pigeon-server-developer:25555/user/add?GroupID="+guildID+"&server="+command[1]);
+                            mt = new MessageType("text","绑定成功");
+                            }
                         }else{
                             HttpTool.getData("http://pigeon-server-developer:25555/user/add?GroupID="+guildID+"&server="+command[1]);
                             mt = new MessageType("text","绑定成功");
@@ -283,11 +292,15 @@ static String temp;
                     }
 
                     rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/user/get?WXID="+userID));
-                    if (rootNode.get("code").asInt() == 200 && rootNode.get("data") != null){
+                    if (rootNode.get("code").asInt() == 200 && !rootNode.get("data").isEmpty()){
                         if (guildID == null && rootNode.get("data").get(0).get("server") != null){
                             //用户已经绑定过了，走用户更新流程
                             HttpTool.getData("http://pigeon-server-developer:25555/user/update?WXID="+userID+"&server="+command[1]);
                             mt = new MessageType("text","绑定更新成功");
+                        }else{
+                            //用户未绑定，走用户绑定流程
+                            HttpTool.getData("http://pigeon-server-developer:25555/user/add?WXID="+userID+"&server="+command[1]);
+                            mt = new MessageType("text","绑定成功");
                         }
                     }else{
                         //用户未绑定，走用户绑定流程
@@ -606,7 +619,7 @@ static String temp;
                 //endregion
                 //region 装备查询
                 case "查询":
-                    
+                case "装备":
                     if (command.length>=3){
                         rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/image/api/role/attribute?server="+command[1]+"&name="+command[2]));
                     }else{
@@ -641,6 +654,7 @@ static String temp;
                                     aa.append("").append(rootNode.get("data").get(i).get("postTitle").asText());
                                     aa.append("\n").append(rootNode.get("data").get(i).get("url").asText()+"\n");
                                 }
+                                System.out.println(aa.toString());
                                 mt = new MessageType("text",aa.toString());
                             }else{
                                 mt = new MessageType("text","没有在魔盒找到结果，请更换关键词");
@@ -752,6 +766,7 @@ static String temp;
                     switch (rootNode.get("code").asInt()){
                         case 200:
                             dataNode = rootNode.path("data");
+                            System.out.println("dataNode.get("context").asText()");
                             mt = new MessageType("text",dataNode.get("context").asText());
                             break;
                         default:
