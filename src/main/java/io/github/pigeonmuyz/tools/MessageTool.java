@@ -54,7 +54,6 @@ static String temp;
                                     + "五人秘境：" + dataNode.get("team").get(1).asText() + "\n"
                                     + "十人秘境：" + dataNode.get("team").get(2).asText() + "\n"
                                     + "今天是" + dataNode.get("date").asText() + " 星期" + dataNode.get("week").asText();
-                            System.out.println(temp);
                             mt = new MessageType("text",temp);
                             break;
                         default:
@@ -98,7 +97,6 @@ static String temp;
                 case "团队招募":
                     
                     rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/image/api/member/recruit?server="+server));
-                    System.out.println(rootNode.toString());
                     switch (rootNode.get("code").asInt()){
                         case 200:
                             dataNode = rootNode.path("data");
@@ -129,7 +127,6 @@ static String temp;
                                     + String.format("地点：%s · %s\n", dataNode.get("event").get(2).get("map_name").asText(), dataNode.get("event").get(2).get("site").asText())
                                     + "开始时间：" + dataNode.get("event").get(2).get("time").asText();
                             mt = new MessageType("text",temp);
-                            System.out.println(temp);
                             break;
                         default:
                             mt = new MessageType("text","服务器响应异常，请联系管理或者核对参数后再次重试");
@@ -163,7 +160,6 @@ static String temp;
                             + "4. 终于增加了交易行价格！！！（仅支持工具，相关副本和职业攻略帖子）\n"
                             + "5. I人拯救计划（第二次重构版的机器人）正在进行中！可以密聊作者获取体验资格\n"
                             + "6. I人拯救计划将附带独一无二的iPhone通知推送！";
-                    System.out.println(temp);
                     mt = new MessageType("text",temp);
 
                     break;
@@ -173,34 +169,7 @@ static String temp;
                 case "帮助":
                 case "功能":
                 case "指令":
-                    temp = "通用类\n"
-                            + "赞助指令：赞助\n"
-                            + "最新公告：公告\n"
-                            + "查询日常：日常\n"
-                            + "绑定服务器：绑定 [服务器(必选)]\n"
-                            + "外观价格：外观 [物品名称|物品别名(必选)]\n"
-                            + "角色装备：查询 [服务器(可选)] [玩家名字(必选)]\n"
-                            + "查询金价：金价 [服务器(可选)]\n"
-                            + "查询奇遇：奇遇 [服务器(可选)] [玩家名字(必选)]\n"
-                            + "查询物价：交易行 [服务器(可选)] [物品名字(必选)]\n"
-                            + "查询魔盒：魔盒 [关键字（必选）]\n"
-                            + "订阅监控：全部订阅[首次订阅将会立即生效]\n"
-                            + "团队招募：招募|团队招募 [服务器名（可选）] [副本名(可选，例：西津渡)]\n"
-                            + "查询日志：[日志|更新日志|Version]\n"
-                            + "PVE类\n"
-                            + "百战指令：百战\n"
-                            + "查宏指令：宏 [心法名（可以使用别称！！！）]\n"
-                            + "PVP类\n"
-                            + "JJC战绩：JJC｜战绩 [玩家名(必选)] [模式，例如22｜33｜55(必选)] [服务器(可选)]\n"
-                            + "战争沙盘：沙盘 [服务器(可选)]\n"
-                            + "PVX类\n"
-                            + "查询花价：花价 \n"
-                            + "成就进度：成就 [服务器(机器人绑定过服务器的不需要输入)] [玩家名] [成就名或成就系列(例：沈剑心)]\n"
-                            + "楚天行侠：行侠|楚天社|楚天行侠\n"
-                            + "宠物游历：游历 [地图(必选)]\n"
-                            + "剑三鸽鸽 Remake 1.0";
-                    System.out.println(temp);
-                    mt = new MessageType("text",temp);
+                    mt = new MessageType("image","https://s11.ax1x.com/2023/12/22/pi7MrKe.png");
                     break;
                 //endregion
                 //region 服务器开服查询
@@ -654,7 +623,6 @@ static String temp;
                                     aa.append("").append(rootNode.get("data").get(i).get("postTitle").asText());
                                     aa.append("\n").append(rootNode.get("data").get(i).get("url").asText()+"\n");
                                 }
-                                System.out.println(aa.toString());
                                 mt = new MessageType("text",aa.toString());
                             }else{
                                 mt = new MessageType("text","没有在魔盒找到结果，请更换关键词");
@@ -766,7 +734,6 @@ static String temp;
                     switch (rootNode.get("code").asInt()){
                         case 200:
                             dataNode = rootNode.path("data");
-                            System.out.println(dataNode.get("context").asText());
                             mt = new MessageType("text",dataNode.get("context").asText());
                             break;
                         default:
