@@ -19,6 +19,9 @@ public class SocketServer extends WebSocketServer {
 
     private String defaultServer = "飞龙在天";
 
+    //语言过滤器
+    Map<String, String> languageFilter = initLanguageFilter();
+
     public SocketServer(int port) throws UnknownHostException {
         super(new InetSocketAddress(port));
     }
@@ -51,8 +54,7 @@ public class SocketServer extends WebSocketServer {
             //读取消息
             JsonNode jsonNode = new ObjectMapper().readTree(message);
             String[] command = jsonNode.get("alt_message").asText().split(" ");
-            System.out.println("原文字："+jsonNode.get("alt_message").asText());
-            System.out.println("处理后的文字数组："+command.toString());
+            command[0] = languageFilter.get(command[0]);
             MessageType messageType;
             UserType userType = null;
             //判断是否是群聊消息
@@ -72,7 +74,7 @@ public class SocketServer extends WebSocketServer {
                 sendMessage(messageType,userType);
                 messageType.setType("null");
             }else{
-                messageType = MessageTool.singleCommand(jsonNode.get("alt_message").asText(),jsonNode.get("user_id").asText(),groupId,defaultServer);
+                messageType = MessageTool.singleCommand(languageFilter.get(jsonNode.get("alt_message").asText()),jsonNode.get("user_id").asText(),groupId,defaultServer);
                 sendMessage(messageType,userType);
                 messageType.setType("null");
             }
@@ -124,7 +126,6 @@ public class SocketServer extends WebSocketServer {
                     switch (userType.getType()){
                         case "group":
                             HttpTool.postData("http://pigeon-wechat:8000/",String.format("{\"action\":\"send_message\",\"params\":{\"detail_type\":\"group\",\"group_id\":\"%s\",\"message\":[{\"type\":\"image\",\"data\":{\"file_id\":\"%s\"}}]}}",userType.getId(),fileIdTemp));
-                            System.out.println("发送完毕");
                             break;
                         case "private":
                             HttpTool.postData("http://pigeon-wechat:8000/",String.format("{\"action\":\"send_message\",\"params\":{\"detail_type\":\"private\",\"user_id\":\"%s\",\"message\":[{\"type\":\"image\",\"data\":{\"file_id\":\"%s\"}}]}}",userType.getId(),fileIdTemp));
@@ -146,5 +147,96 @@ public class SocketServer extends WebSocketServer {
             throw new RuntimeException(e);
         }
     }
-}
 
+    /**
+     * 初始化语言过滤器
+     */
+    Map<String, String> initLanguageFilter(){
+        Map<String, String> tempMap = new HashMap<String, String>();
+        //region 日常
+        tempMap.put("日常","日常");     
+        tempMap.put("日常","日常");     
+        tempMap.put("daily","日常"); 
+        tempMap.put("dailys","日常"); 
+        //endregion    
+
+        //region 装备
+        tempMap.put("装备","装备");     
+        tempMap.put("裝備","装备");     
+        tempMap.put("equip","装备");     
+        tempMap.put("equips","装备");     
+        //endregion
+        
+        //region 帮助
+        tempMap.put("帮助","帮助");     
+        tempMap.put("幫助","帮助");     
+        tempMap.put("help","帮助"); 
+        tempMap.put("helps","帮助"); 
+        //endregion
+
+        //region 招募
+        tempMap.put("招募","招募");     
+        tempMap.put("團隊招募","招募");     
+        tempMap.put("团队招募","招募");
+        tempMap.put("招募","招募"); 
+        tempMap.put("teamactivity","招募"); 
+        //endregion
+
+        //region 奇遇
+        tempMap.put("奇遇","奇遇");     
+        tempMap.put("奇遇","奇遇");     
+        tempMap.put("adventure","奇遇"); 
+        //endregion
+
+        //region 宏
+        tempMap.put("宏","宏");     
+        tempMap.put("宏","宏");     
+        tempMap.put("macro","宏"); 
+        //endregion
+
+        //region 战绩
+        tempMap.put("战绩","战绩");     
+        tempMap.put("JJC","战绩");     
+        tempMap.put("戰績","战绩");     
+        //endregion
+
+        //region 金价
+        tempMap.put("金价","金价");     
+        tempMap.put("金價","金价");     
+        tempMap.put("gold","金价"); 
+        //endregion
+
+        //region 外观
+        tempMap.put("外观","外观");     
+        tempMap.put("外觀","外观");     
+        tempMap.put("fashions","外观"); 
+        //endregion
+
+        //region 楚天社
+        tempMap.put("行侠","楚天行侠");     
+        tempMap.put("行俠","楚天行侠");     
+        tempMap.put("楚天行俠","楚天行侠");     
+        tempMap.put("楚天行侠","楚天行侠");     
+        tempMap.put("chutian","楚天行侠"); 
+        //endregion
+
+        //region 战争沙盘
+        tempMap.put("沙盘","沙盘");     
+        tempMap.put("沙盤","沙盘");     
+        tempMap.put("sandbox","沙盘"); 
+        //endregion
+
+        //region 成就
+        tempMap.put("成就","成就");     
+        tempMap.put("成就","成就");     
+        tempMap.put("achievement","成就"); 
+        //endregion
+
+        //region 副本进度
+        tempMap.put("进度","进度");     
+        tempMap.put("進度","进度");     
+        tempMap.put("progress","进度"); 
+        //endregion
+        return tempMap;
+    }
+}
