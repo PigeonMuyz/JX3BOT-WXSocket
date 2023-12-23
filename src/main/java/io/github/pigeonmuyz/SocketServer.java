@@ -239,6 +239,12 @@ public class SocketServer extends WebSocketServer {
         tempMap.put("進度","进度");     
         tempMap.put("progress","进度"); 
         //endregion
+
+        //region 副本进度
+        tempMap.put("百战","百战");     
+        tempMap.put("百戰","百战");     
+        tempMap.put("monster","百战"); 
+        //endregion
         return tempMap;
     }
 }
