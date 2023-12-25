@@ -20,7 +20,8 @@ import org.java_websocket.server.WebSocketServer;
 public class SocketServer extends WebSocketServer {
 
     private String defaultServer = "飞龙在天";
-
+    MessageType messageType;
+    UserType userType;
     //语言过滤器
     Map<String, String> languageFilter = initLanguageFilter();
 
@@ -57,8 +58,6 @@ public class SocketServer extends WebSocketServer {
             JsonNode jsonNode = new ObjectMapper().readTree(message);
             String[] command = jsonNode.get("alt_message").asText().split(" ");
             command[0] = languageFilter.get(command[0]);
-            MessageType messageType;
-            UserType userType = null;
             //判断是否是群聊消息
             switch(jsonNode.get("detail_type").asText()){
                 case "private":
@@ -74,12 +73,16 @@ public class SocketServer extends WebSocketServer {
             if (command.length > 1){
                 messageType = MessageTool.multiCommand(command,jsonNode.get("user_id").asText(),groupId,defaultServer);
                 sendMessage(messageType,userType);
-                messageType.setType("null");
             }else{
-                messageType = MessageTool.singleCommand(languageFilter.get(jsonNode.get("alt_message").asText()),jsonNode.get("user_id").asText(),groupId,defaultServer);
+                if(languageFilter.get(jsonNode.get("alt_message").asText()) == null) {
+                    messageType = MessageTool.singleCommand(jsonNode.get("alt_message").asText(),jsonNode.get("user_id").asText(),groupId,defaultServer);
+                }else{
+                    messageType = MessageTool.singleCommand(languageFilter.get(jsonNode.get("alt_message").asText()),jsonNode.get("user_id").asText(),groupId,defaultServer);
+                }
                 sendMessage(messageType,userType);
-                messageType.setType("null");
             }
+            messageType = null;
+            userType = null;
         } catch (JsonProcessingException e) {
             //读取不了消息
             throw new RuntimeException(e);
@@ -244,6 +247,20 @@ public class SocketServer extends WebSocketServer {
         tempMap.put("百战","百战");     
         tempMap.put("百戰","百战");     
         tempMap.put("monster","百战"); 
+        //endregion
+
+        //region 公告
+        tempMap.put("公告","公告");
+        tempMap.put("公告","公告");
+        tempMap.put("更新日志","公告");
+        tempMap.put("更新日志","公告");
+        tempMap.put("announce","公告");
+        //endregion
+
+        //region 开服
+        tempMap.put("开服","开服");
+        tempMap.put("開服","开服");
+        tempMap.put("serverstatus","开服");
         //endregion
         return tempMap;
     }
