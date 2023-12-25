@@ -20,8 +20,7 @@ import org.java_websocket.server.WebSocketServer;
 public class SocketServer extends WebSocketServer {
 
     private String defaultServer = "飞龙在天";
-    MessageType messageType;
-    UserType userType;
+    
     //语言过滤器
     Map<String, String> languageFilter = initLanguageFilter();
 
@@ -57,6 +56,8 @@ public class SocketServer extends WebSocketServer {
             //读取消息
             JsonNode jsonNode = new ObjectMapper().readTree(message);
             String[] command = jsonNode.get("alt_message").asText().split(" ");
+            MessageType messageType;
+            UserType userType;
             if(languageFilter.get(command[0]) == null){
                 
             }else{
@@ -77,8 +78,7 @@ public class SocketServer extends WebSocketServer {
             if (command.length > 1){
                 messageType = MessageTool.multiCommand(command,jsonNode.get("user_id").asText(),groupId,defaultServer);
                 sendMessage(messageType,userType);
-                messageType = null;
-                userType = null;
+                messageType.setType("null");
             }else{
                 if(languageFilter.get(jsonNode.get("alt_message").asText()) == null) {
                     messageType = MessageTool.singleCommand(jsonNode.get("alt_message").asText(),jsonNode.get("user_id").asText(),groupId,defaultServer);
@@ -86,8 +86,7 @@ public class SocketServer extends WebSocketServer {
                     messageType = MessageTool.singleCommand(languageFilter.get(jsonNode.get("alt_message").asText()),jsonNode.get("user_id").asText(),groupId,defaultServer);
                 }
                 sendMessage(messageType,userType);
-                messageType = null;
-                userType = null;
+                messageType.setType("null");
             }
         } catch (JsonProcessingException e) {
             //读取不了消息
