@@ -57,7 +57,11 @@ public class SocketServer extends WebSocketServer {
             //读取消息
             JsonNode jsonNode = new ObjectMapper().readTree(message);
             String[] command = jsonNode.get("alt_message").asText().split(" ");
-            command[0] = languageFilter.get(command[0]);
+            if(languageFilter.get(command[0]) == null){
+                
+            }else{
+                command[0] = languageFilter.get(command[0]);
+            }
             //判断是否是群聊消息
             switch(jsonNode.get("detail_type").asText()){
                 case "private":
