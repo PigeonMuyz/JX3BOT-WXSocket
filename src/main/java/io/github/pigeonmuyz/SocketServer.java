@@ -159,6 +159,37 @@ public class SocketServer extends WebSocketServer {
     }
 
     /**
+     * 语义识别器
+     */
+    public static String[] processString(String input) {
+        String[] patterns = {
+            "我想看看(.*)的(.{2})$",
+            "看看(.*)的(.{2})$",
+            "给我(.*)的(.{2})$",
+            "给我看看(.*)的(.{2})$",
+            "(.*)的(.{2})$",
+            "我想看看(.*)的(.{4})$",
+            "看看(.*)的(.{4})$",
+            "给我(.*)的(.{4})$",
+            "给我看看(.*)的(.{4})$",
+            "(.*)的(.{4})$",
+            "我想看看(.*)的(.*)",
+            "看看(.*)的(.*)",
+            "给我(.*)的(.*)",
+            "给我看看(.*)的(.*)",
+            "(.*)的(.*)"
+        };
+        for (String patternStr : patterns) {
+            Pattern pattern = Pattern.compile(patternStr);
+            Matcher matcher = pattern.matcher(input);
+            if (matcher.find()) {
+                return new String[]{matcher.group(2), matcher.group(1)};
+            }
+        }
+        return new String[]{input};
+    }
+    
+    /**
      * 初始化语言过滤器
      */
     Map<String, String> initLanguageFilter(){
