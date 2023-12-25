@@ -77,6 +77,8 @@ public class SocketServer extends WebSocketServer {
             if (command.length > 1){
                 messageType = MessageTool.multiCommand(command,jsonNode.get("user_id").asText(),groupId,defaultServer);
                 sendMessage(messageType,userType);
+                messageType = null;
+                userType = null;
             }else{
                 if(languageFilter.get(jsonNode.get("alt_message").asText()) == null) {
                     messageType = MessageTool.singleCommand(jsonNode.get("alt_message").asText(),jsonNode.get("user_id").asText(),groupId,defaultServer);
@@ -84,9 +86,9 @@ public class SocketServer extends WebSocketServer {
                     messageType = MessageTool.singleCommand(languageFilter.get(jsonNode.get("alt_message").asText()),jsonNode.get("user_id").asText(),groupId,defaultServer);
                 }
                 sendMessage(messageType,userType);
+                messageType = null;
+                userType = null;
             }
-            messageType = null;
-            userType = null;
         } catch (JsonProcessingException e) {
             //读取不了消息
             throw new RuntimeException(e);
