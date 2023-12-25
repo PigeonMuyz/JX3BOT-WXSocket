@@ -5,6 +5,8 @@ import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -56,6 +58,9 @@ public class SocketServer extends WebSocketServer {
             //读取消息
             JsonNode jsonNode = new ObjectMapper().readTree(message);
             String[] command = jsonNode.get("alt_message").asText().split(" ");
+            if(command.length == 1){
+                command = processString(command);
+            }
             MessageType messageType;
             UserType userType = null;
             if(languageFilter.get(command[0]) == null){
@@ -80,10 +85,10 @@ public class SocketServer extends WebSocketServer {
                 sendMessage(messageType,userType);
                 messageType.setType("null");
             }else{
-                if(languageFilter.get(jsonNode.get("alt_message").asText()) == null) {
-                    messageType = MessageTool.singleCommand(jsonNode.get("alt_message").asText(),jsonNode.get("user_id").asText(),groupId,defaultServer);
+                if(languageFilter.get(command[0]) == null) {
+                    messageType = MessageTool.singleCommand(command[0],jsonNode.get("user_id").asText(),groupId,defaultServer);
                 }else{
-                    messageType = MessageTool.singleCommand(languageFilter.get(jsonNode.get("alt_message").asText()),jsonNode.get("user_id").asText(),groupId,defaultServer);
+                    messageType = MessageTool.singleCommand(languageFilter.get(command[0]),jsonNode.get("user_id").asText(),groupId,defaultServer);
                 }
                 sendMessage(messageType,userType);
                 messageType.setType("null");
