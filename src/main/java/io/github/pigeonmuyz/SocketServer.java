@@ -57,7 +57,7 @@ public class SocketServer extends WebSocketServer {
             JsonNode jsonNode = new ObjectMapper().readTree(message);
             String[] command = jsonNode.get("alt_message").asText().split(" ");
             MessageType messageType;
-            UserType userType;
+            UserType userType = null;
             if(languageFilter.get(command[0]) == null){
                 
             }else{
