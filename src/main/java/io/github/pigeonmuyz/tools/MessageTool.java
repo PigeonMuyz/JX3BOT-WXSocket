@@ -20,19 +20,19 @@ public class MessageTool {
 static String temp;
     public static MessageType singleCommand(String command, String userID, String channelID, String server) {
         try {
-            if (channelID != null){
-                rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/user/get?GroupID="+channelID));
-                if (!rootNode.get("data").isEmpty()){
-                    dataNode = rootNode.get("data");
-                    server = dataNode.get("server").asText();
-                }
-            }else{
-                rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/user/get?WXID="+userID));
-                if (!rootNode.get("data").isEmpty()){
-                    dataNode = rootNode.get("data");
-                    server = dataNode.get("server").asText();
-                }
-            }
+            //if (channelID != null){
+            //    rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/user/get?GroupID="+channelID));
+            //    if (!rootNode.get("data").isEmpty()){
+            //        dataNode = rootNode.get("data");
+            //        server = dataNode.get("server").asText();
+            //    }
+            //}else{
+            //    rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/user/get?WXID="+userID));
+            //    if (!rootNode.get("data").isEmpty()){
+            //        dataNode = rootNode.get("data");
+            //        server = dataNode.get("server").asText();
+            //    }
+            //}
             switch(command){
                 //region 日常
                 case "日常":
