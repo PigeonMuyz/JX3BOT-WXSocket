@@ -36,7 +36,7 @@ static String temp;
             switch(command){
                 //region 日常
                 case "日常":
-                    rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/image/active/cureent?server="+server));
+                    rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/image/api/active/cureent?server="+server));
                     switch (rootNode.get("code").asInt()){
                         case 200:
                             dataNode = rootNode.path("data");
