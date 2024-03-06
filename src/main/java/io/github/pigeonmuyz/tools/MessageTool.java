@@ -46,7 +46,6 @@ static String temp;
                             mt = new MessageType("text","服务器响应异常，请联系管理或者核对参数后再次重试");
                             break;
                     }
-                    break;
                     // rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/api/daily?server="+server));
                     // switch (rootNode.get("code").asInt()){
                     //     case 200:
