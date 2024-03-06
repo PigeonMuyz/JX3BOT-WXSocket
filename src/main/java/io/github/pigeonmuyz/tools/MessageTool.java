@@ -36,29 +36,39 @@ static String temp;
             switch(command){
                 //region 日常
                 case "日常":
-                    
-                    rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/api/daily?server="+server));
+                    rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/image/active/cureent?server="+server));
                     switch (rootNode.get("code").asInt()){
                         case 200:
                             dataNode = rootNode.path("data");
-                            temp = "秘境日常：" + dataNode.get("war").asText() + "\n"
-                                    + "公共日常：" + dataNode.get("team").get(0).asText() + "\n"
-                                    + "PVP日常\n"
-                                    + "矿车：跨服•烂柯山\n"
-                                    + "战场：" + dataNode.get("battle").asText() + "\n"
-                                    + "PVX日常\n"
-                                    + (dataNode.get("draw").asText().isEmpty() || dataNode.get("draw").asText().equals("null") ? "美人图：无\n" : "美人图：" + dataNode.get("draw").asText() + "\n")
-                                    + "门派事件：" + dataNode.get("school").asText() + "\n"
-                                    + String.format("福源宠物：%s;%s;%s\n", dataNode.get("luck").get(0).asText(), dataNode.get("luck").get(1).asText(), dataNode.get("luck").get(2).asText())
-                                    + "PVE周常\n"
-                                    + "五人秘境：" + dataNode.get("team").get(1).asText() + "\n"
-                                    + "十人秘境：" + dataNode.get("team").get(2).asText() + "\n"
-                                    + "今天是" + dataNode.get("date").asText() + " 星期" + dataNode.get("week").asText();
-                            mt = new MessageType("text",temp);
+                            mt = new MessageType("image",dataNode.get("url").asText());
                             break;
                         default:
                             mt = new MessageType("text","服务器响应异常，请联系管理或者核对参数后再次重试");
                             break;
+                    }
+                    break;
+                    // rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/api/daily?server="+server));
+                    // switch (rootNode.get("code").asInt()){
+                    //     case 200:
+                    //         dataNode = rootNode.path("data");
+                    //         temp = "秘境日常：" + dataNode.get("war").asText() + "\n"
+                    //                 + "公共日常：" + dataNode.get("team").get(0).asText() + "\n"
+                    //                 + "PVP日常\n"
+                    //                 + "矿车：跨服•烂柯山\n"
+                    //                 + "战场：" + dataNode.get("battle").asText() + "\n"
+                    //                 + "PVX日常\n"
+                    //                 + (dataNode.get("draw").asText().isEmpty() || dataNode.get("draw").asText().equals("null") ? "美人图：无\n" : "美人图：" + dataNode.get("draw").asText() + "\n")
+                    //                 + "门派事件：" + dataNode.get("school").asText() + "\n"
+                    //                 + String.format("福源宠物：%s;%s;%s\n", dataNode.get("luck").get(0).asText(), dataNode.get("luck").get(1).asText(), dataNode.get("luck").get(2).asText())
+                    //                 + "PVE周常\n"
+                    //                 + "五人秘境：" + dataNode.get("team").get(1).asText() + "\n"
+                    //                 + "十人秘境：" + dataNode.get("team").get(2).asText() + "\n"
+                    //                 + "今天是" + dataNode.get("date").asText() + " 星期" + dataNode.get("week").asText();
+                    //         mt = new MessageType("text",temp);
+                    //         break;
+                    //     default:
+                    //         mt = new MessageType("text","服务器响应异常，请联系管理或者核对参数后再次重试");
+                    //         break;
                     }
                     break;
                 //endregion
