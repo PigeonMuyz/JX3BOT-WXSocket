@@ -303,6 +303,12 @@ public class SocketServer extends WebSocketServer {
         tempMap.put("開服","开服");
         tempMap.put("serverstatus","开服");
         //endregion
+
+        //region 烟花
+        tempMap.put(".a.烟花","烟花");
+//        tempMap.put(".a.烟花","烟花");
+//        tempMap.put(".a.烟花","烟花");
+        //endregion
         return tempMap;
     }
 }

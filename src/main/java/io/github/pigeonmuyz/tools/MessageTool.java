@@ -20,19 +20,6 @@ public class MessageTool {
 static String temp;
     public static MessageType singleCommand(String command, String userID, String channelID, String server) {
         try {
-            //if (channelID != null){
-            //    rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/user/get?GroupID="+channelID));
-            //    if (!rootNode.get("data").isEmpty()){
-            //        dataNode = rootNode.get("data");
-            //        server = dataNode.get("server").asText();
-            //    }
-            //}else{
-            //    rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/user/get?WXID="+userID));
-            //    if (!rootNode.get("data").isEmpty()){
-            //        dataNode = rootNode.get("data");
-            //        server = dataNode.get("server").asText();
-            //    }
-            //}
             switch(command){
                 //region 日常
                 case "日常":
@@ -153,7 +140,7 @@ static String temp;
                             mt = new MessageType("image",dataNode.get("url").asText());
                             break;
                         default:
-                            mt = new MessageType("text","服务器响应异常，请联系管理或者核对参数后再次重试");
+                            mt = new MessageType("text","暂未收录");
                             break;
                     }
                     break;
@@ -194,7 +181,7 @@ static String temp;
                             mt = new MessageType("text",temp);
                         break;
                         default:
-                            mt = new MessageType("text","服务器响应异常，请联系管理或者核对参数后再次重试");
+                            mt = new MessageType("text","我挂了");
                             break;
                     }
                     break;
@@ -209,7 +196,7 @@ static String temp;
                             mt = new MessageType("image",dataNode.get("url").asText());
                             break;
                         default:
-                            mt = new MessageType("text","服务器响应异常，请联系管理或者核对参数后再次重试");
+                            mt = new MessageType("text","响应异常，请联系管理");
                             break;
                     }
                     break;
@@ -236,136 +223,123 @@ static String temp;
 
     public static MessageType multiCommand(String[] command,String userID,String guildID,String server) {
         try{
-            //if (channelID != null){
-            //    rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/user/get?GroupID="+channelID));
-            //    if (!rootNode.get("data").isEmpty()){
-            //        dataNode = rootNode.get("data");
-            //        server = dataNode.get("server").asText();
-            //    }
-            //}else{
-            //    rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/user/get?WXID="+userID));
-            //    if (!rootNode.get("data").isEmpty()){
-            //        dataNode = rootNode.get("data");
-            //        server = dataNode.get("server").asText();
-            //    }
-            //}
             switch (command[0]){
                 //region 绑定服务器
-                case "绑定":
-                    if (guildID != null){
-                        JsonNode jn = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/user/get?GroupID="+guildID));
-                        if (jn.get("code").asInt() == 200){
-                            if (!jn.get("data").isEmpty()){
-                                //群组已经绑定过了，走频道更新流程
-                                HttpTool.getData("http://pigeon-server-developer:25555/user/update?GroupID="+guildID+"&server="+command[1]);
-                                mt = new MessageType("text","绑定更新成功");
-                            }else{
-                                HttpTool.getData("http://pigeon-server-developer:25555/user/add?GroupID="+guildID+"&server="+command[1]);
-                            mt = new MessageType("text","绑定成功");
-                            }
-                        }else{
-                            HttpTool.getData("http://pigeon-server-developer:25555/user/add?GroupID="+guildID+"&server="+command[1]);
-                            mt = new MessageType("text","绑定成功");
-                        }
-                    }
-
-                    rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/user/get?WXID="+userID));
-                    if (rootNode.get("code").asInt() == 200 && !rootNode.get("data").isEmpty()){
-                        if (guildID == null && rootNode.get("data").get(0).get("server") != null){
-                            //用户已经绑定过了，走用户更新流程
-                            HttpTool.getData("http://pigeon-server-developer:25555/user/update?WXID="+userID+"&server="+command[1]);
-                            mt = new MessageType("text","绑定更新成功");
-                        }else{
-                            //用户未绑定，走用户绑定流程
-                            HttpTool.getData("http://pigeon-server-developer:25555/user/add?WXID="+userID+"&server="+command[1]);
-                            mt = new MessageType("text","绑定成功");
-                        }
-                    }else{
-                        //用户未绑定，走用户绑定流程
-                        HttpTool.getData("http://pigeon-server-developer:25555/user/add?WXID="+userID+"&server="+command[1]);
-                        mt = new MessageType("text","绑定成功");
-                    }
-                    break;
+//                case "绑定":
+//                    if (guildID != null){
+//                        JsonNode jn = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/user/get?GroupID="+guildID));
+//                        if (jn.get("code").asInt() == 200){
+//                            if (!jn.get("data").isEmpty()){
+//                                //群组已经绑定过了，走频道更新流程
+//                                HttpTool.getData("http://pigeon-server-developer:25555/user/update?GroupID="+guildID+"&server="+command[1]);
+//                                mt = new MessageType("text","绑定更新成功");
+//                            }else{
+//                                HttpTool.getData("http://pigeon-server-developer:25555/user/add?GroupID="+guildID+"&server="+command[1]);
+//                            mt = new MessageType("text","绑定成功");
+//                            }
+//                        }else{
+//                            HttpTool.getData("http://pigeon-server-developer:25555/user/add?GroupID="+guildID+"&server="+command[1]);
+//                            mt = new MessageType("text","绑定成功");
+//                        }
+//                    }
+//
+//                    rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/user/get?WXID="+userID));
+//                    if (rootNode.get("code").asInt() == 200 && !rootNode.get("data").isEmpty()){
+//                        if (guildID == null && rootNode.get("data").get(0).get("server") != null){
+//                            //用户已经绑定过了，走用户更新流程
+//                            HttpTool.getData("http://pigeon-server-developer:25555/user/update?WXID="+userID+"&server="+command[1]);
+//                            mt = new MessageType("text","绑定更新成功");
+//                        }else{
+//                            //用户未绑定，走用户绑定流程
+//                            HttpTool.getData("http://pigeon-server-developer:25555/user/add?WXID="+userID+"&server="+command[1]);
+//                            mt = new MessageType("text","绑定成功");
+//                        }
+//                    }else{
+//                        //用户未绑定，走用户绑定流程
+//                        HttpTool.getData("http://pigeon-server-developer:25555/user/add?WXID="+userID+"&server="+command[1]);
+//                        mt = new MessageType("text","绑定成功");
+//                    }
+//                    break;
                 //endregion
                 //region 功能开关
-                case "开启":
-                case "关闭":
-                    boolean status;
-                    if(command[0].equals("开启")){
-                        status = true;
-                    }else{
-                        status = false;
-                    }
-                    switch (command[1]){
-                        case "版本更新":
-                            if (guildID != null){
-                                HttpTool.getData("http://pigeon-server-developer:25555/user/update?GroupID="+guildID+"&VersionUpdate="+status);
-                            }else{
-                                HttpTool.getData("http://pigeon-server-developer:25555/user/update?WXID="+userID+"&VersionUpdate="+status);
-                            }
-                            if (status){
-                                temp = command[1]+"已开启！";
-                            }else{
-                                temp = command[1]+"已关闭！";
-                            }
-                            mt = new MessageType("text",temp);
-                            break;
-                        case "开服监控":
-                            if (guildID != null){
-                                HttpTool.getData("http://pigeon-server-developer:25555/user/update?GroupID="+guildID+"&ServerStatus="+status);
-                            }else{
-                                HttpTool.getData("http://pigeon-server-developer:25555/user/update?WXID="+userID+"&ServerStatus="+status);
-                            }
-                            if (status){
-                                temp = command[1]+"已开启！";
-                            }else{
-                                temp = command[1]+"已关闭！";
-                            }
-                            mt = new MessageType("text",temp);
-;
-                            break;
-                        case "新闻监控":
-                            if (guildID != null){
-                                HttpTool.getData("http://pigeon-server-developer:25555/user/update?GroupID="+guildID+"&News="+status);
-                            }else{
-                                HttpTool.getData("http://pigeon-server-developer:25555/user/update?WXID="+userID+"&News="+status);
-                            }
-                            if (status){
-                                temp = command[1]+"已开启！";
-                            }else{
-                                temp = command[1]+"已关闭！";
-                            }
-                            mt = new MessageType("text",temp);
-;
-                            break;
-                        case "818监控":
-                            if (guildID != null){
-                                HttpTool.getData("http://pigeon-server-developer:25555/user/update?GroupID="+guildID+"&forumPost="+status);
-                            }else{
-                                HttpTool.getData("http://pigeon-server-developer:25555/user/update?WXID="+userID+"&forumPost="+status);
-                            }
-                            if (status){
-                                temp = command[1]+"已开启！";
-                            }else{
-                                temp = command[1]+"已关闭！";
-                            }
-                            mt = new MessageType("text",temp);
-;
-                            break;
-                        case "先锋测试":
-                            if (guildID != null){
-                                HttpTool.getData("http://pigeon-server-developer:25555/user/update?GroupID="+guildID+"&bossRefresh="+status);
-                            }else{
-                                HttpTool.getData("http://pigeon-server-developer:25555/user/update?WXID="+userID+"&bossRefresh="+status);
-                            }
-                            if (status){
-                                temp = command[1]+"已开启！";
-                            }else{
-                                temp = command[1]+"已关闭！";
-                            }
-                            mt = new MessageType("text",temp);
-;
-                            break;
+//                case "开启":
+//                case "关闭":
+//                    boolean status;
+//                    if(command[0].equals("开启")){
+//                        status = true;
+//                    }else{
+//                        status = false;
+//                    }
+//                    switch (command[1]){
+//                        case "版本更新":
+//                            if (guildID != null){
+//                                HttpTool.getData("http://pigeon-server-developer:25555/user/update?GroupID="+guildID+"&VersionUpdate="+status);
+//                            }else{
+//                                HttpTool.getData("http://pigeon-server-developer:25555/user/update?WXID="+userID+"&VersionUpdate="+status);
+//                            }
+//                            if (status){
+//                                temp = command[1]+"已开启！";
+//                            }else{
+//                                temp = command[1]+"已关闭！";
+//                            }
+//                            mt = new MessageType("text",temp);
+//                            break;
+//                        case "开服监控":
+//                            if (guildID != null){
+//                                HttpTool.getData("http://pigeon-server-developer:25555/user/update?GroupID="+guildID+"&ServerStatus="+status);
+//                            }else{
+//                                HttpTool.getData("http://pigeon-server-developer:25555/user/update?WXID="+userID+"&ServerStatus="+status);
+//                            }
+//                            if (status){
+//                                temp = command[1]+"已开启！";
+//                            }else{
+//                                temp = command[1]+"已关闭！";
+//                            }
+//                            mt = new MessageType("text",temp);
+//;
+//                            break;
+//                        case "新闻监控":
+//                            if (guildID != null){
+//                                HttpTool.getData("http://pigeon-server-developer:25555/user/update?GroupID="+guildID+"&News="+status);
+//                            }else{
+//                                HttpTool.getData("http://pigeon-server-developer:25555/user/update?WXID="+userID+"&News="+status);
+//                            }
+//                            if (status){
+//                                temp = command[1]+"已开启！";
+//                            }else{
+//                                temp = command[1]+"已关闭！";
+//                            }
+//                            mt = new MessageType("text",temp);
+//;
+//                            break;
+//                        case "818监控":
+//                            if (guildID != null){
+//                                HttpTool.getData("http://pigeon-server-developer:25555/user/update?GroupID="+guildID+"&forumPost="+status);
+//                            }else{
+//                                HttpTool.getData("http://pigeon-server-developer:25555/user/update?WXID="+userID+"&forumPost="+status);
+//                            }
+//                            if (status){
+//                                temp = command[1]+"已开启！";
+//                            }else{
+//                                temp = command[1]+"已关闭！";
+//                            }
+//                            mt = new MessageType("text",temp);
+//;
+//                            break;
+//                        case "先锋测试":
+//                            if (guildID != null){
+//                                HttpTool.getData("http://pigeon-server-developer:25555/user/update?GroupID="+guildID+"&bossRefresh="+status);
+//                            }else{
+//                                HttpTool.getData("http://pigeon-server-developer:25555/user/update?WXID="+userID+"&bossRefresh="+status);
+//                            }
+//                            if (status){
+//                                temp = command[1]+"已开启！";
+//                            }else{
+//                                temp = command[1]+"已关闭！";
+//                            }
+//                            mt = new MessageType("text",temp);
+//;
+//                            break;
 //                        case "云从事件":
 //                            if (guildID != null){
 //                                HttpTool.getData("http://pigeon-server-developer:25555/user/update?GroupID="+guildID+"&bossRefresh="+status);
@@ -379,107 +353,107 @@ static String temp;
 //                            }else{
 //                                HttpTool.getData("http://pigeon-server-developer:25555/user/update?WXID="+userID+"&bossRefresh="+status);
 //                            }
-                        case "手机通知":
-                            if (guildID != null){
-                                //这里是群聊，群聊绝对不要绑定！
-                            }else{
-                                rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/user/get?WXID="+userID));
-                                HttpTool.getData("http://pigeon-server-developer:25555/user/update?WXID="+userID+"&BarkNotify="+status);
-                                if (rootNode.get("code").asInt() == 200 && rootNode.get("data").get(0).get("barkKey") != null){
-                                    HttpTool.getData("http://pigeon-server-developer:25555/user/update?WXID="+userID+"&barkNotify="+status);
-                                    rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/user/get?WXID="+userID));
-                                    if (rootNode.get("data").get(0).get("barkNotify").asBoolean()){
-                                        temp = "Bark推送已经开启";
-                                    }else{
-                                        temp = "Bark推送已经关闭";
-
-                                    }
-                                }else{
-                                    temp = "请先绑定BarkKey";
-                                }
-                            }
-                            mt = new MessageType("text",temp);
-                            
-                            break;
-                    }
-                    break;
+//                        case "手机通知":
+//                            if (guildID != null){
+//                                //这里是群聊，群聊绝对不要绑定！
+//                            }else{
+//                                rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/user/get?WXID="+userID));
+//                                HttpTool.getData("http://pigeon-server-developer:25555/user/update?WXID="+userID+"&BarkNotify="+status);
+//                                if (rootNode.get("code").asInt() == 200 && rootNode.get("data").get(0).get("barkKey") != null){
+//                                    HttpTool.getData("http://pigeon-server-developer:25555/user/update?WXID="+userID+"&barkNotify="+status);
+//                                    rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/user/get?WXID="+userID));
+//                                    if (rootNode.get("data").get(0).get("barkNotify").asBoolean()){
+//                                        temp = "Bark推送已经开启";
+//                                    }else{
+//                                        temp = "Bark推送已经关闭";
+//
+//                                    }
+//                                }else{
+//                                    temp = "请先绑定BarkKey";
+//                                }
+//                            }
+//                            mt = new MessageType("text",temp);
+//
+//                            break;
+//                    }
+//                    break;
                 //endregion
                 //region 状态查询
-                case "当前状态":
-                case "功能状态":
-                case "服务":
-                    if (guildID != null){
-                        rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/user/get?GroupID="+guildID));
-                        if (rootNode.get("data").isEmpty() || rootNode.get(0).get("GroupID") == null) {
-                            temp = "当前频道未绑定服务器并开启任何功能";
-                        }else{
-                            temp = "当前频道功能开启状态：";
-                            if (rootNode.get(0).get("VersionUpdate").asBoolean()){
-                                temp = "版本更新：开启";
-                            }else{
-                                temp = "版本更新：关闭";
-                            }
-                            if (rootNode.get(0).get("ServerStatus").asBoolean()){
-                                temp = "开服监控：开启";
-                            }else{
-                                temp = "开服监控：关闭";
-                            }
-                            if (rootNode.get(0).get("News").asBoolean()){
-                                temp = "新闻监控：开启";
-                            }else{
-                                temp = "新闻监控：关闭";
-                            }
-                            if (rootNode.get(0).get("forumPost").asBoolean()){
-                                temp = "818监控：开启";
-                            }else{
-                                temp = "818监控：关闭";
-                            }
-                            if (rootNode.get(0).get("bossRefresh").asBoolean()){
-                                temp = "先锋测试：开启";
-                            }else{
-                                temp = "先锋测试：关闭";
-                            }
-                        }
-                    }else{
-                        rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/user/get?WXID="+userID));
-                        if (rootNode.get("data").isEmpty() || rootNode.get(0).get("WXID") == null) {
-                            temp = "当前用户未绑定服务器，并开启任何功能";
-                        }else{
-                            temp = "当前用户功能开启状态：";
-                            if (rootNode.get(0).get("VersionUpdate").asBoolean()){
-                                temp = "版本更新：开启";
-                            }else{
-                                temp = "版本更新：关闭";
-                            }
-                            if (rootNode.get(0).get("ServerStatus").asBoolean()){
-                                temp = "开服监控：开启";
-                            }else{
-                                temp = "开服监控：关闭";
-                            }
-                            if (rootNode.get(0).get("News").asBoolean()){
-                                temp = "新闻监控：开启";
-                            }else{
-                                temp = "新闻监控：关闭";
-                            }
-                            if (rootNode.get(0).get("forumPost").asBoolean()){
-                                temp = "818监控：开启";
-                            }else{
-                                temp = "818监控：关闭";
-                            }
-                            if (rootNode.get(0).get("bossRefresh").asBoolean()){
-                                temp = "先锋测试：开启";
-                            }else{
-                                temp = "先锋测试：关闭";
-                            }
-                            if (rootNode.get(0).get("barkNotify").asBoolean()){
-                                temp = "手机推送：开启";
-                            }else{
-                                temp = "手机推送：关闭";
-                            }
-                        }
-                    }
-                    mt = new MessageType("text",temp);
-                    break;
+//                case "当前状态":
+//                case "功能状态":
+//                case "服务":
+//                    if (guildID != null){
+//                        rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/user/get?GroupID="+guildID));
+//                        if (rootNode.get("data").isEmpty() || rootNode.get(0).get("GroupID") == null) {
+//                            temp = "当前频道未绑定服务器并开启任何功能";
+//                        }else{
+//                            temp = "当前频道功能开启状态：";
+//                            if (rootNode.get(0).get("VersionUpdate").asBoolean()){
+//                                temp = "版本更新：开启";
+//                            }else{
+//                                temp = "版本更新：关闭";
+//                            }
+//                            if (rootNode.get(0).get("ServerStatus").asBoolean()){
+//                                temp = "开服监控：开启";
+//                            }else{
+//                                temp = "开服监控：关闭";
+//                            }
+//                            if (rootNode.get(0).get("News").asBoolean()){
+//                                temp = "新闻监控：开启";
+//                            }else{
+//                                temp = "新闻监控：关闭";
+//                            }
+//                            if (rootNode.get(0).get("forumPost").asBoolean()){
+//                                temp = "818监控：开启";
+//                            }else{
+//                                temp = "818监控：关闭";
+//                            }
+//                            if (rootNode.get(0).get("bossRefresh").asBoolean()){
+//                                temp = "先锋测试：开启";
+//                            }else{
+//                                temp = "先锋测试：关闭";
+//                            }
+//                        }
+//                    }else{
+//                        rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/user/get?WXID="+userID));
+//                        if (rootNode.get("data").isEmpty() || rootNode.get(0).get("WXID") == null) {
+//                            temp = "当前用户未绑定服务器，并开启任何功能";
+//                        }else{
+//                            temp = "当前用户功能开启状态：";
+//                            if (rootNode.get(0).get("VersionUpdate").asBoolean()){
+//                                temp = "版本更新：开启";
+//                            }else{
+//                                temp = "版本更新：关闭";
+//                            }
+//                            if (rootNode.get(0).get("ServerStatus").asBoolean()){
+//                                temp = "开服监控：开启";
+//                            }else{
+//                                temp = "开服监控：关闭";
+//                            }
+//                            if (rootNode.get(0).get("News").asBoolean()){
+//                                temp = "新闻监控：开启";
+//                            }else{
+//                                temp = "新闻监控：关闭";
+//                            }
+//                            if (rootNode.get(0).get("forumPost").asBoolean()){
+//                                temp = "818监控：开启";
+//                            }else{
+//                                temp = "818监控：关闭";
+//                            }
+//                            if (rootNode.get(0).get("bossRefresh").asBoolean()){
+//                                temp = "先锋测试：开启";
+//                            }else{
+//                                temp = "先锋测试：关闭";
+//                            }
+//                            if (rootNode.get(0).get("barkNotify").asBoolean()){
+//                                temp = "手机推送：开启";
+//                            }else{
+//                                temp = "手机推送：关闭";
+//                            }
+//                        }
+//                    }
+//                    mt = new MessageType("text",temp);
+//                    break;
                 //endregion
                 //region 外观
                 case "外观":
@@ -492,34 +466,33 @@ static String temp;
                             mt = new MessageType("image",dataNode.get("url").asText());
                             break;
                         default:
-                            mt = new MessageType("text","服务器响应异常，请联系管理或者核对参数后再次重试");
+                            mt = new MessageType("text",!rootNode.get("msg").asText().isEmpty() ? rootNode.get("msg").asText() : !rootNode.get("message").asText().isEmpty() ? rootNode.get("message").asText() : "找渡渡鸟来修");
                             break;
                     }
                     break;
                 //endregion
                 //region Bark绑定
-                case "Bark":
-                case "消息推送密钥":
-                case "消息推送":
-                    rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/user/get?WXID="+userID));
-                    if (rootNode.get("code").asInt() == 200 && rootNode.get("data").get(0).get("WXID") != null){
-                        if (guildID == null && rootNode.get("data").get(0).get("barkKey") != null){
-                            //用户已经绑定过了，走用户更新流程
-                            HttpTool.getData("http://pigeon-server-developer:25555/user/update?WXID="+userID+"&barkKey="+command[1]+"&barkNotify=true");
-                            temp = "更改成功！将开启推送！";
-                        }
-                    }else{
-                        //用户未绑定，走用户绑定流程
-                        HttpTool.getData("http://pigeon-server-developer:25555/user/add?WXID="+userID+"&barkKey="+command[1]);
-                        HttpTool.getData("http://pigeon-server-developer:25555/user/update?WXID="+userID+"&barkNotify=true");
-                        temp = "绑定成功！默认将开启推送！";
-                    }
-                    mt = new MessageType("text",temp);
-                    break;
+//                case "Bark":
+//                case "消息推送密钥":
+//                case "消息推送":
+//                    rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/user/get?WXID="+userID));
+//                    if (rootNode.get("code").asInt() == 200 && rootNode.get("data").get(0).get("WXID") != null){
+//                        if (guildID == null && rootNode.get("data").get(0).get("barkKey") != null){
+//                            //用户已经绑定过了，走用户更新流程
+//                            HttpTool.getData("http://pigeon-server-developer:25555/user/update?WXID="+userID+"&barkKey="+command[1]+"&barkNotify=true");
+//                            temp = "更改成功！将开启推送！";
+//                        }
+//                    }else{
+//                        //用户未绑定，走用户绑定流程
+//                        HttpTool.getData("http://pigeon-server-developer:25555/user/add?WXID="+userID+"&barkKey="+command[1]);
+//                        HttpTool.getData("http://pigeon-server-developer:25555/user/update?WXID="+userID+"&barkNotify=true");
+//                        temp = "绑定成功！默认将开启推送！";
+//                    }
+//                    mt = new MessageType("text",temp);
+//                    break;
                 //endregion
                 //region 奇遇
                 case "奇遇":
-                    
                     if (command.length>=3){
                         rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/image/api/luck/adventure?server="+command[1]+"&name="+command[2]+"&filter=1"));
                     }else{
@@ -531,7 +504,7 @@ static String temp;
                             mt = new MessageType("image",dataNode.get("url").asText());
                             break;
                         default:
-                            mt = new MessageType("text","服务器响应异常，请联系管理或者核对参数后再次重试");
+                            mt = new MessageType("text",!rootNode.get("msg").asText().isEmpty() ? rootNode.get("msg").asText() : !rootNode.get("message").asText().isEmpty() ? rootNode.get("message").asText() : "找渡渡鸟来修");
                             break;
                     }
                 break;
@@ -552,14 +525,13 @@ static String temp;
                             mt = new MessageType("image",dataNode.get("url").asText());
                             break;
                         default:
-                            mt = new MessageType("text","服务器响应异常，请联系管理或者核对参数后再次重试");
+                            mt = new MessageType("text",!rootNode.get("msg").asText().isEmpty() ? rootNode.get("msg").asText() : !rootNode.get("message").asText().isEmpty() ? rootNode.get("message").asText() : "找渡渡鸟来修");
                             break;
                     }
                     break;
                 //endregion
                 //region 金价
                 case "金价":
-                    
                     rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/image/api/trade/demon?server="+command[1]));
                     switch (rootNode.get("code").asInt()){
                         case 200:
@@ -567,7 +539,7 @@ static String temp;
                             mt = new MessageType("image",dataNode.get("url").asText());
                             break;
                         default:
-                            mt = new MessageType("text","服务器响应异常，请联系管理或者核对参数后再次重试");
+                            mt = new MessageType("text",!rootNode.get("msg").asText().isEmpty() ? rootNode.get("msg").asText() : !rootNode.get("message").asText().isEmpty() ? rootNode.get("message").asText() : "找渡渡鸟来修");
                             break;
                     }
                     break;
@@ -575,7 +547,6 @@ static String temp;
                 //region 团队招募
                 case "招募":
                 case "团队招募":
-                    
                     if (command.length>=3){
                         rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/image/api/member/recruit?server="+command[1]+"&keyword="+command[2]));
                     }else{
@@ -590,7 +561,7 @@ static String temp;
                             mt = new MessageType("image",dataNode.get("url").asText());
                             break;
                         default:
-                            mt = new MessageType("text","服务器响应异常，请联系管理或者核对参数后再次重试");
+                            mt = new MessageType("text",!rootNode.get("msg").asText().isEmpty() ? rootNode.get("msg").asText() : !rootNode.get("message").asText().isEmpty() ? rootNode.get("message").asText() : "找渡渡鸟来修");
                             break;
                     }
                     break;
@@ -609,7 +580,7 @@ static String temp;
                             mt = new MessageType("image",dataNode.get("url").asText());
                             break;
                         default:
-                            mt = new MessageType("text","服务器响应异常，请联系管理或者核对参数后再次重试");
+                            mt = new MessageType("text",!rootNode.get("msg").asText().isEmpty() ? rootNode.get("msg").asText() : !rootNode.get("message").asText().isEmpty() ? rootNode.get("message").asText() : "找渡渡鸟来修");
                             break;
                     }
                     break;
@@ -661,14 +632,13 @@ static String temp;
                             mt = new MessageType("image",dataNode.get("url").asText());
                             break;
                         default:
-                            temp = "服务器响应异常，请联系管理或者核对参数后再次重试";
+                            temp = "找渡渡鸟来修";
                             break;
                     }
                     break;
                 //endregion
                 //region 服务器开服查询
                 case "开服":
-                    
                     rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/api/serverCheck?server="+command[1]));
                     switch (rootNode.get("code").asInt()){
                         case 200:
@@ -681,14 +651,13 @@ static String temp;
 
                             break;
                         default:
-                            mt = new MessageType("text","服务器响应异常，请联系管理或者核对参数后再次重试");
+                            mt = new MessageType("text",!rootNode.get("msg").asText().isEmpty() ? rootNode.get("msg").asText() : !rootNode.get("message").asText().isEmpty() ? rootNode.get("message").asText() : "找渡渡鸟来修");
                             break;
                     }
                     break;
                 //endregion
                 //region 烟花
                 case "烟花":
-                    
                     if (command.length>=3){
                         rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/image/api/watch/record?server="+command[1]+"&name="+command[2]));
                     }else{
@@ -700,14 +669,13 @@ static String temp;
                             mt = new MessageType("image",dataNode.get("url").asText());
                             break;
                         default:
-                            mt = new MessageType("text","服务器响应异常，请联系管理或者核对参数后再次重试");
+                            mt = new MessageType("text",!rootNode.get("msg").asText().isEmpty() ? rootNode.get("msg").asText() : !rootNode.get("message").asText().isEmpty() ? rootNode.get("message").asText() : "找渡渡鸟来修");
                             break;
                     }
                     break;
                 //endregion
                 //region 沙盘
                 case "沙盘":
-                    
                     rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/image/api/server/sand?server="+command[1]+"&desc=我只是个平凡的鸽鸽罢了"));
                     switch (rootNode.get("code").asInt()){
                         case 200:
@@ -715,7 +683,7 @@ static String temp;
                             mt = new MessageType("image",dataNode.get("url").asText());
                             break;
                         default:
-                            mt = new MessageType("text","服务器响应异常，请联系管理或者核对参数后再次重试");
+                            mt = new MessageType("text",!rootNode.get("msg").asText().isEmpty() ? rootNode.get("msg").asText() : !rootNode.get("message").asText().isEmpty() ? rootNode.get("message").asText() : "找渡渡鸟来修");
                     }
                     break;
                 //endregion
@@ -732,7 +700,7 @@ static String temp;
                             mt = new MessageType("image",dataNode.get("url").asText());
                             break;
                         default:
-                            mt = new MessageType("text","服务器响应异常，请联系管理或者核对参数后再次重试");
+                            mt = new MessageType("text",!rootNode.get("msg").asText().isEmpty() ? rootNode.get("msg").asText() : !rootNode.get("message").asText().isEmpty() ? rootNode.get("message").asText() : "找渡渡鸟来修");
                             break;
                     }
                     break;
