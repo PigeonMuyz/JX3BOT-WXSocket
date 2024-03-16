@@ -37,19 +37,20 @@ static String temp;
                      switch (rootNode.get("code").asInt()){
                          case 200:
                              dataNode = rootNode.path("data");
-                             temp = "秘境日常：" + dataNode.get("war").asText() + "\\n"
+                             temp =  "【PVE日常】\\n"
+                                     + "秘境日常：" + dataNode.get("war").asText() + "\\n"
                                      + "公共日常：" + dataNode.get("team").get(0).asText() + "\\n"
-                                     + "PVP日常\\n"
+                                     + "【PVP日常】\\n"
                                      + "矿车：跨服•烂柯山\\n"
                                      + "战场：" + dataNode.get("battle").asText() + "\\n"
-                                     + "PVX日常\\n"
+                                     + "【PVX日常】\\n"
                                      + (dataNode.get("draw").asText().isEmpty() || dataNode.get("draw").asText().equals("null") ? "美人图：无\\n" : "美人图：" + dataNode.get("draw").asText() + "\\n")
                                      + "门派事件：" + dataNode.get("school").asText() + "\\n"
                                      + String.format("福源宠物：%s;%s;%s\\n", dataNode.get("luck").get(0).asText(), dataNode.get("luck").get(1).asText(), dataNode.get("luck").get(2).asText())
-                                     + "PVE周常\\n"
+                                     + "【PVE周常】\\n"
                                      + "五人秘境：" + dataNode.get("team").get(1).asText() + "\\n"
                                      + "十人秘境：" + dataNode.get("team").get(2).asText() + "\\n"
-                                     + "今天是" + dataNode.get("date").asText() + " 星期" + dataNode.get("week").asText();
+                                     + "【今天是" + dataNode.get("date").asText() + " 星期" + dataNode.get("week").asText() +"】";
                              mt = new MessageType("text",temp);
                              break;
                          default:
