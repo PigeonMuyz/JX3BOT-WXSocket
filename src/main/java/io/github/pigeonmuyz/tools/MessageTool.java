@@ -737,7 +737,7 @@ static String temp;
                 //endregion
                 //region 测试换行
                 case "test":
-                    mt = new MessageType("text","测试\n成功");
+                    mt = new MessageType("text","测试\\n成功");
                     break;
                 //endregion
 
