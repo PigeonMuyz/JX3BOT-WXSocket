@@ -165,7 +165,7 @@ static String temp;
                 //endregion
                 //region 服务器开服查询
                 case "开服":
-                    rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/api/serverCheck?server="+server));
+                    rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/api/data/serverCheck?server="+server));
                     switch (rootNode.get("code").asInt()){
                         case 200:
                             if (rootNode.get("data").get("status").asInt() >0){
