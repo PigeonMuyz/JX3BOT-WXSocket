@@ -702,7 +702,7 @@ static String temp;
                     switch (rootNode.get("code").asInt()){
                         case 200:
                             dataNode = rootNode.path("data");
-                            mt = new MessageType("text",dataNode.get("context").asText());
+                            mt = new MessageType("text",dataNode.get("context").asText().replace("\n","\\n").replace("\\r","\\r"));
                             break;
                         default:
                             mt = new MessageType("text","服务器响应异常，请联系管理或者核对参数后再次重试");

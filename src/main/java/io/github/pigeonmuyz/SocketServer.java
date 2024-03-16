@@ -328,6 +328,11 @@ public class SocketServer extends WebSocketServer {
         tempMap.put("魔盒","魔盒");
         //endregion
 
+        //region 魔盒
+        tempMap.put("日志","日志");
+        tempMap.put("updatelog","日志");
+        tempMap.put("日誌","日志");
+        //endregion
         return tempMap;
     }
 }
