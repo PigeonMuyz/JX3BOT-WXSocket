@@ -23,7 +23,7 @@ static String temp;
             switch(command){
                 //region 日常
                 case "日常":
-                    rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/image/api/active/cureent?server="+server));
+                    rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/api/image/active/cureent?server="+server));
                     switch (rootNode.get("code").asInt()){
                         case 200:
                             dataNode = rootNode.path("data");
@@ -60,8 +60,7 @@ static String temp;
                 //endregion
                 //region 金价
                 case "金价":
-                    
-                    rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/image/api/trade/demon?server="+server));
+                    rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/api/image/trade/demon?server="+server));
                     switch (rootNode.get("code").asInt()){
                         case 200:
                             dataNode = rootNode.path("data");
@@ -75,8 +74,7 @@ static String temp;
                 //endregion
                 //region 花价
                 case "花价":
-                    
-                    rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/image/api/home/flower?server="+server));
+                    rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/api/image/home/flower?server="+server));
                     switch (rootNode.get("code").asInt()){
                         case 200:
                             dataNode = rootNode.path("data");
@@ -92,7 +90,7 @@ static String temp;
                 case "招募":
                 case "团队招募":
                     
-                    rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/image/api/member/recruit?server="+server));
+                    rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/api/image/member/recruit?server="+server));
                     switch (rootNode.get("code").asInt()){
                         case 200:
                             dataNode = rootNode.path("data");
@@ -133,7 +131,7 @@ static String temp;
                 //region 百战
                 case "百战":
                     
-                    rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/image/api/active/monster"));
+                    rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/api/image/active/monster"));
                     switch (rootNode.get("code").asInt()){
                         case 200:
                             dataNode = rootNode.path("data");
@@ -189,7 +187,7 @@ static String temp;
                 //region 公告
                 case "公告":
                     
-                    rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/image/api/web/news/announce"));
+                    rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/api/image/web/news/announce"));
                     switch (rootNode.get("code").asInt()){
                         case 200:
                             dataNode = rootNode.path("data");
@@ -459,7 +457,7 @@ static String temp;
                 case "外观":
                 case "万宝楼":
                     
-                    rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/image/api/trade/record?name="+command[1]));
+                    rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/api/image/trade/record?name="+command[1]));
                     switch (rootNode.get("code").asInt()){
                         case 200:
                             dataNode = rootNode.path("data");
@@ -494,9 +492,9 @@ static String temp;
                 //region 奇遇
                 case "奇遇":
                     if (command.length>=3){
-                        rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/image/api/luck/adventure?server="+command[1]+"&name="+command[2]+"&filter=1"));
+                        rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/api/image/luck/adventure?server="+command[1]+"&name="+command[2]+"&filter=1"));
                     }else{
-                        rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/image/api/luck/adventure?server="+server+"&name="+command[1]+"&filter=1"));
+                        rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/api/image/luck/adventure?server="+server+"&name="+command[1]+"&filter=1"));
                     }
                     switch (rootNode.get("code").asInt()){
                         case 200:
@@ -515,9 +513,9 @@ static String temp;
                 case "JJC":
                     
                     if (command.length >= 4){
-                        rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/image/api/match/recent?server="+command[1]+"&name="+command[2]+"&robot=剑三咕咕"+"&mode="+command[3]));
+                        rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/api/image/match/recent?server="+command[1]+"&name="+command[2]+"&robot=剑三咕咕"+"&mode="+command[3]));
                     }else {
-                        rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/image/api/match/recent?server="+server+"&name="+command[1]+"&mode="+command[2]));
+                        rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/api/image/match/recent?server="+server+"&name="+command[1]+"&mode="+command[2]));
                     }
                     switch (rootNode.get("code").asInt()){
                         case 200:
@@ -532,7 +530,7 @@ static String temp;
                 //endregion
                 //region 金价
                 case "金价":
-                    rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/image/api/trade/demon?server="+command[1]));
+                    rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/api/image/trade/demon?server="+command[1]));
                     switch (rootNode.get("code").asInt()){
                         case 200:
                             dataNode = rootNode.path("data");
@@ -548,11 +546,11 @@ static String temp;
                 case "招募":
                 case "团队招募":
                     if (command.length>=3){
-                        rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/image/api/member/recruit?server="+command[1]+"&keyword="+command[2]));
+                        rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/api/image/member/recruit?server="+command[1]+"&keyword="+command[2]));
                     }else{
-                        rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/image/api/member/recruit?server="+command[1]));
+                        rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/api/image/member/recruit?server="+command[1]));
                         if (rootNode.get("code").asInt() != 200){
-                            rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/image/api/member/recruit?server="+server+"&keyword="+command[1]));
+                            rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/api/image/member/recruit?server="+server+"&keyword="+command[1]));
                         }
                     }
                     switch (rootNode.get("code").asInt()){
@@ -570,9 +568,9 @@ static String temp;
                 case "查询":
                 case "装备":
                     if (command.length>=3){
-                        rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/image/api/role/attribute?server="+command[1]+"&name="+command[2]));
+                        rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/api/image/role/attribute?server="+command[1]+"&name="+command[2]));
                     }else{
-                        rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/image/api/role/attribute?server="+server+"&name="+command[1]));
+                        rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/api/image/role/attribute?server="+server+"&name="+command[1]));
                     }
                     switch (rootNode.get("code").asInt()){
                         case 200:
@@ -622,9 +620,9 @@ static String temp;
                 case "进度":
                     
                     if (command.length>=3){
-                        rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/image/api/role/teamCdList?server="+command[1]+"&name="+command[2]));
+                        rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/api/image/role/teamCdList?server="+command[1]+"&name="+command[2]));
                     }else{
-                        rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/image/api/role/teamCdList?server="+server+"&name="+command[1]));
+                        rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/api/image/role/teamCdList?server="+server+"&name="+command[1]));
                     }
                     switch (rootNode.get("code").asInt()){
                         case 200:
@@ -659,9 +657,9 @@ static String temp;
                 //region 烟花
                 case "烟花":
                     if (command.length>=3){
-                        rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/image/api/watch/record?server="+command[1]+"&name="+command[2]));
+                        rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/api/image/watch/record?server="+command[1]+"&name="+command[2]));
                     }else{
-                        rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/image/api/watch/record?server="+server+"&name="+command[1]));
+                        rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/api/image/watch/record?server="+server+"&name="+command[1]));
                     }
                     switch (rootNode.get("code").asInt()){
                         case 200:
@@ -676,7 +674,7 @@ static String temp;
                 //endregion
                 //region 沙盘
                 case "沙盘":
-                    rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/image/api/server/sand?server="+command[1]+"&desc=我只是个平凡的鸽鸽罢了"));
+                    rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/api/image/server/sand?server="+command[1]+"&desc=我只是个平凡的鸽鸽罢了"));
                     switch (rootNode.get("code").asInt()){
                         case 200:
                             dataNode = rootNode.path("data");
@@ -690,9 +688,9 @@ static String temp;
                 //region 成就相关实现
                 case "成就":
                     if (command.length >= 4){
-                        rootNode = mapper.readTree(HttpTool.getData("http://api.muyz.xyz:25555/image/api/role/achievement?server="+command[1]+"&role="+command[2]+"&name="+command[3]));
+                        rootNode = mapper.readTree(HttpTool.getData("http://api.muyz.xyz:25555/api/image/role/achievement?server="+command[1]+"&role="+command[2]+"&name="+command[3]));
                     }else {
-                        rootNode = mapper.readTree(HttpTool.getData("http://api.muyz.xyz:25555/image/api/role/achievement?server="+server+"&role="+command[1]+"&name="+command[2]));
+                        rootNode = mapper.readTree(HttpTool.getData("http://api.muyz.xyz:25555/api/image/role/achievement?server="+server+"&role="+command[1]+"&name="+command[2]));
                     }
                     switch (rootNode.get("code").asInt()){
                         case 200:
@@ -717,6 +715,29 @@ static String temp;
                             mt = new MessageType("text","服务器响应异常，请联系管理或者核对参数后再次重试");
                             break;
                     }
+                    break;
+                //endregion
+                //region 掉落
+                case "掉落":
+                    if (command.length>=3){
+                        rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/api/image/valuables/statistical?server="+command[1]+"&name="+command[2]));
+                    }else{
+                        rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/api/image/valuables/statistical?server="+server+"&name="+command[1]));
+                    }
+                    switch (rootNode.get("code").asInt()){
+                        case 200:
+                            dataNode = rootNode.path("data");
+                            mt = new MessageType("image",dataNode.get("url").asText());
+                            break;
+                        default:
+                            mt = new MessageType("text",!rootNode.get("msg").asText().isEmpty() ? rootNode.get("msg").asText() : !rootNode.get("message").asText().isEmpty() ? rootNode.get("message").asText() : "找渡渡鸟来修");
+                            break;
+                    }
+                    break;
+                //endregion
+                //region 测试换行
+                case "test":
+                    mt = new MessageType("text","测试<br/>成功");
                     break;
                 //endregion
 
