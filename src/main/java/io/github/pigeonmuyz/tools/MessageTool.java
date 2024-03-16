@@ -198,14 +198,9 @@ static String temp;
                 //endregion
                 //region 骚话
                 case "骚话":
-                        JsonNode rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/api/saohua"));
+                        JsonNode rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/api/data/saohua"));
                         JsonNode dataNode = rootNode.path("data");
-                        //简单的随机判断
-                        if (Math.random()>0.5){
-                            temp = "就你小子想要骚话是吧";
-                        }else{
-                            temp = dataNode.get("text").asText();
-                        }
+                        temp = dataNode.get("text").asText();
                     mt = new MessageType("text",temp);
                     break;
                     //endregion
@@ -634,7 +629,7 @@ static String temp;
                 //endregion
                 //region 服务器开服查询
                 case "开服":
-                    rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/api/serverCheck?server="+command[1]));
+                    rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/api/data/serverCheck?server="+command[1]));
                     switch (rootNode.get("code").asInt()){
                         case 200:
                             if (rootNode.get("data").get("status").asInt() >0){
@@ -702,7 +697,7 @@ static String temp;
                 //endregion
                 //region 宏
                 case "宏":
-                    rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/api/macros/jx3api?kungfu="+command[1]));
+                    rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/api/data/macros/jx3api?kungfu="+command[1]));
                     switch (rootNode.get("code").asInt()){
                         case 200:
                             dataNode = rootNode.path("data");
