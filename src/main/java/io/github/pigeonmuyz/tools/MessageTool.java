@@ -23,39 +23,39 @@ static String temp;
             switch(command){
                 //region 日常
                 case "日常":
-                    rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/api/image/active/cureent?server="+server));
-                    switch (rootNode.get("code").asInt()){
-                        case 200:
-                            dataNode = rootNode.path("data");
-                            mt = new MessageType("image",dataNode.get("url").asText());
-                            break;
-                        default:
-                            mt = new MessageType("text","服务器响应异常，请联系管理或者核对参数后再次重试");
-                            break;
-                    }
-                    // rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/api/daily?server="+server));
-                    // switch (rootNode.get("code").asInt()){
-                    //     case 200:
-                    //         dataNode = rootNode.path("data");
-                    //         temp = "秘境日常：" + dataNode.get("war").asText() + "\n"
-                    //                 + "公共日常：" + dataNode.get("team").get(0).asText() + "\n"
-                    //                 + "PVP日常\n"
-                    //                 + "矿车：跨服•烂柯山\n"
-                    //                 + "战场：" + dataNode.get("battle").asText() + "\n"
-                    //                 + "PVX日常\n"
-                    //                 + (dataNode.get("draw").asText().isEmpty() || dataNode.get("draw").asText().equals("null") ? "美人图：无\n" : "美人图：" + dataNode.get("draw").asText() + "\n")
-                    //                 + "门派事件：" + dataNode.get("school").asText() + "\n"
-                    //                 + String.format("福源宠物：%s;%s;%s\n", dataNode.get("luck").get(0).asText(), dataNode.get("luck").get(1).asText(), dataNode.get("luck").get(2).asText())
-                    //                 + "PVE周常\n"
-                    //                 + "五人秘境：" + dataNode.get("team").get(1).asText() + "\n"
-                    //                 + "十人秘境：" + dataNode.get("team").get(2).asText() + "\n"
-                    //                 + "今天是" + dataNode.get("date").asText() + " 星期" + dataNode.get("week").asText();
-                    //         mt = new MessageType("text",temp);
-                    //         break;
-                    //     default:
-                    //         mt = new MessageType("text","服务器响应异常，请联系管理或者核对参数后再次重试");
-                    //         break;
-                    // }
+//                    rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/api/image/active/cureent?server="+server));
+//                    switch (rootNode.get("code").asInt()){
+//                        case 200:
+//                            dataNode = rootNode.path("data");
+//                            mt = new MessageType("image",dataNode.get("url").asText());
+//                            break;
+//                        default:
+//                            mt = new MessageType("text","服务器响应异常，请联系管理或者核对参数后再次重试");
+//                            break;
+//                    }
+                     rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/api/daily?server="+server));
+                     switch (rootNode.get("code").asInt()){
+                         case 200:
+                             dataNode = rootNode.path("data");
+                             temp = "秘境日常：" + dataNode.get("war").asText() + "\\n"
+                                     + "公共日常：" + dataNode.get("team").get(0).asText() + "\\n"
+                                     + "PVP日常\\n"
+                                     + "矿车：跨服•烂柯山\\n"
+                                     + "战场：" + dataNode.get("battle").asText() + "\\n"
+                                     + "PVX日常\\n"
+                                     + (dataNode.get("draw").asText().isEmpty() || dataNode.get("draw").asText().equals("null") ? "美人图：无\\n" : "美人图：" + dataNode.get("draw").asText() + "\\n")
+                                     + "门派事件：" + dataNode.get("school").asText() + "\\n"
+                                     + String.format("福源宠物：%s;%s;%s\\n", dataNode.get("luck").get(0).asText(), dataNode.get("luck").get(1).asText(), dataNode.get("luck").get(2).asText())
+                                     + "PVE周常\\n"
+                                     + "五人秘境：" + dataNode.get("team").get(1).asText() + "\\n"
+                                     + "十人秘境：" + dataNode.get("team").get(2).asText() + "\\n"
+                                     + "今天是" + dataNode.get("date").asText() + " 星期" + dataNode.get("week").asText();
+                             mt = new MessageType("text",temp);
+                             break;
+                         default:
+                             mt = new MessageType("text","服务器响应异常，请联系管理或者核对参数后再次重试");
+                             break;
+                     }
                     break;
                 //endregion
                 //region 金价
@@ -111,14 +111,14 @@ static String temp;
                     switch (rootNode.get("code").asInt()){
                         case 200:
                             dataNode = rootNode.path("data");
-                            temp = "现在正在进行：" + dataNode.get("event").get(0).get("desc").asText() + "\n"
-                                    + String.format("地点：%s · %s\n", dataNode.get("event").get(0).get("map_name").asText(), dataNode.get("event").get(0).get("site").asText())
-                                    + "开始时间：" + dataNode.get("event").get(0).get("time").asText() + "\n"
-                                    + "下一次将要进行：" + dataNode.get("event").get(1).get("desc").asText() + "\n"
-                                    + String.format("地点：%s · %s\n", dataNode.get("event").get(1).get("map_name").asText(), dataNode.get("event").get(1).get("site").asText())
-                                    + "开始时间：" + dataNode.get("event").get(1).get("time").asText() + "\n"
-                                    + "之后将要进行：" + dataNode.get("event").get(2).get("desc").asText() + "\n"
-                                    + String.format("地点：%s · %s\n", dataNode.get("event").get(2).get("map_name").asText(), dataNode.get("event").get(2).get("site").asText())
+                            temp = "现在正在进行：" + dataNode.get("event").get(0).get("desc").asText() + "\\n"
+                                    + String.format("地点：%s · %s\\n", dataNode.get("event").get(0).get("map_name").asText(), dataNode.get("event").get(0).get("site").asText())
+                                    + "开始时间：" + dataNode.get("event").get(0).get("time").asText() + "\\n"
+                                    + "下一次将要进行：" + dataNode.get("event").get(1).get("desc").asText() + "\\n"
+                                    + String.format("地点：%s · %s\\n", dataNode.get("event").get(1).get("map_name").asText(), dataNode.get("event").get(1).get("site").asText())
+                                    + "开始时间：" + dataNode.get("event").get(1).get("time").asText() + "\\n"
+                                    + "之后将要进行：" + dataNode.get("event").get(2).get("desc").asText() + "\\n"
+                                    + String.format("地点：%s · %s\\n", dataNode.get("event").get(2).get("map_name").asText(), dataNode.get("event").get(2).get("site").asText())
                                     + "开始时间：" + dataNode.get("event").get(2).get("time").asText();
                             mt = new MessageType("text",temp);
                             break;
@@ -147,13 +147,10 @@ static String temp;
                 //region 更新日志
                 case "日志":
                 case "更新日志":
-                    String temp = "剑三鸽鸽Re 1.0 （开发版本号：8）\n"
-                            + "1. 修复了部分指令反馈错误的问题！！\n"
-                            + "2. 优化了部分指令反馈排版问题！！\n"
-                            + "3. 增加了魔盒文章查询！（仅支持工具，相关副本和职业攻略帖子）\n"
-                            + "4. 终于增加了交易行价格！！！（仅支持工具，相关副本和职业攻略帖子）\n"
-                            + "5. I人拯救计划（第二次重构版的机器人）正在进行中！可以密聊作者获取体验资格\n"
-                            + "6. I人拯救计划将附带独一无二的iPhone通知推送！";
+                    String temp = "剑三鸽鸽Re 1.0 （开发版本号：2222）\\n"
+                            + "1. 修复了部分指令反馈错误的问题！！\\n"
+                            + "2. 优化了部分指令反馈排版问题！！\\n"
+                            + "3. 增加了魔盒文章查询！（仅支持工具，相关副本和职业攻略帖子）\\n";
                     mt = new MessageType("text",temp);
 
                     break;
@@ -595,11 +592,11 @@ static String temp;
                             dataNode = rootNode.path("data");
 
                             if (rootNode.get("data").size() > 0 || !rootNode.get("data").isEmpty()) {
-                                StringBuilder aa = new StringBuilder("以下是关于" + command[1] + "的魔盒搜索结果：\n");
+                                StringBuilder aa = new StringBuilder("以下是关于" + command[1] + "的魔盒搜索结果：\\n");
 
                                 for (int i = 0; i < rootNode.get("data").size(); i++) {
                                     aa.append("").append(rootNode.get("data").get(i).get("postTitle").asText());
-                                    aa.append("\n").append(rootNode.get("data").get(i).get("url").asText()+"\n");
+                                    aa.append("\\n").append(rootNode.get("data").get(i).get("url").asText()+"\\n");
                                 }
                                 mt = new MessageType("text",aa.toString());
                             }else{
