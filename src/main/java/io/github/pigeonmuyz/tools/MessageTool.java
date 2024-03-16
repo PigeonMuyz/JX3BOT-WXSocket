@@ -107,7 +107,7 @@ static String temp;
                 case "楚天社":
                 case "行侠":
                     
-                    rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/api/celebrities"));
+                    rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/api/data/celebrities"));
                     switch (rootNode.get("code").asInt()){
                         case 200:
                             dataNode = rootNode.path("data");
