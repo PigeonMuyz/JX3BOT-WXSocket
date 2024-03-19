@@ -112,15 +112,15 @@ static String temp;
                     switch (rootNode.get("code").asInt()){
                         case 200:
                             dataNode = rootNode.path("data");
-                            temp = "现在正在进行：" + dataNode.get("event").get(0).get("desc").asText() + "\\n"
-                                    + String.format("地点：%s · %s\\n", dataNode.get("event").get(0).get("map_name").asText(), dataNode.get("event").get(0).get("site").asText())
-                                    + "开始时间：" + dataNode.get("event").get(0).get("time").asText() + "\\n"
-                                    + "下一次将要进行：" + dataNode.get("event").get(1).get("desc").asText() + "\\n"
-                                    + String.format("地点：%s · %s\\n", dataNode.get("event").get(1).get("map_name").asText(), dataNode.get("event").get(1).get("site").asText())
-                                    + "开始时间：" + dataNode.get("event").get(1).get("time").asText() + "\\n"
-                                    + "之后将要进行：" + dataNode.get("event").get(2).get("desc").asText() + "\\n"
-                                    + String.format("地点：%s · %s\\n", dataNode.get("event").get(2).get("map_name").asText(), dataNode.get("event").get(2).get("site").asText())
-                                    + "开始时间：" + dataNode.get("event").get(2).get("time").asText();
+                            temp = "现在正在进行：" + dataNode.get(0).get("desc").asText() + "\\n"
+                                    + String.format("地点：%s · %s\\n", dataNode.get(0).get("map_name").asText(), dataNode.get(0).get("site").asText())
+                                    + "开始时间：" + dataNode.get(0).get("time").asText() + "\\n"
+                                    + "下一次将要进行：" + dataNode.get(1).get("desc").asText() + "\\n"
+                                    + String.format("地点：%s · %s\\n", dataNode.get(1).get("map_name").asText(), dataNode.get(1).get("site").asText())
+                                    + "开始时间：" + dataNode.get(1).get("time").asText() + "\\n"
+                                    + "之后将要进行：" + dataNode.get(2).get("desc").asText() + "\\n"
+                                    + String.format("地点：%s · %s\\n", dataNode.get(2).get("map_name").asText(), dataNode.get(2).get("site").asText())
+                                    + "开始时间：" + dataNode.get(2).get("time").asText();
                             mt = new MessageType("text",temp);
                             break;
                         default:
