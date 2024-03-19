@@ -44,7 +44,7 @@ static String temp;
                                      + "矿车：跨服•烂柯山\\n"
                                      + "战场：" + dataNode.get("battle").asText() + "\\n"
                                      + "【PVX日常】\\n"
-                                     + (dataNode.get("draw").asText().isEmpty() || dataNode.get("draw").asText().equals("null") ? "美人图：无\\n" : "美人图：" + dataNode.get("draw").asText() + "\\n")
+                                     + (!dataNode.get("draw").isMissingNode() ? "美人图：" + dataNode.get("draw").asText() : "美人图：无")
                                      + "门派事件：" + dataNode.get("school").asText() + "\\n"
                                      + String.format("福源宠物：%s;%s;%s\\n", dataNode.get("luck").get(0).asText(), dataNode.get("luck").get(1).asText(), dataNode.get("luck").get(2).asText())
                                      + "【PVE周常】\\n"
