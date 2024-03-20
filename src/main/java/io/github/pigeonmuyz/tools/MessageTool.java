@@ -30,7 +30,7 @@ static String temp;
 //                            mt = new MessageType("image",dataNode.get("url").asText());
 //                            break;
 //                        default:
-//                            mt = new MessageType("text","服务器响应异常，请联系管理或者核对参数后再次重试");
+//                            mt = new MessageType("text","数据异常，可能是因为渡渡鸟没人陪！");
 //                            break;
 //                    }
                      rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/api/data/daily?server="+server));
@@ -54,7 +54,7 @@ static String temp;
                              mt = new MessageType("text",temp);
                              break;
                          default:
-                             mt = new MessageType("text","服务器响应异常，请联系管理或者核对参数后再次重试");
+                             mt = new MessageType("text","数据异常，可能是因为渡渡鸟没人陪！");
                              break;
                      }
                     break;
@@ -68,7 +68,7 @@ static String temp;
                             mt = new MessageType("image",dataNode.get("url").asText());
                             break;
                         default:
-                            mt = new MessageType("text","服务器响应异常，请联系管理或者核对参数后再次重试");
+                            mt = new MessageType("text","数据异常，可能是因为渡渡鸟没人陪！");
                             break;
                     }
                     break;
@@ -82,7 +82,7 @@ static String temp;
                             mt = new MessageType("image",dataNode.get("url").asText());
                             break;
                         default:
-                            mt = new MessageType("text","服务器响应异常，请联系管理或者核对参数后再次重试");
+                            mt = new MessageType("text","数据异常，可能是因为渡渡鸟没人陪！");
                             break;
                     }
                     break;
@@ -98,7 +98,7 @@ static String temp;
                             mt = new MessageType("image",dataNode.get("url").asText());
                             break;
                         default:
-                            mt = new MessageType("text","服务器响应异常，请联系管理或者核对参数后再次重试");
+                            mt = new MessageType("text","数据异常，可能是因为渡渡鸟没人陪！");
                             break;
                     }
                     break;
@@ -124,14 +124,13 @@ static String temp;
                             mt = new MessageType("text",temp);
                             break;
                         default:
-                            mt = new MessageType("text","服务器响应异常，请联系管理或者核对参数后再次重试");
+                            mt = new MessageType("text","数据异常，可能是因为渡渡鸟没人陪！");
                             break;
                     }
                     break;
                 //endregion
                 //region 百战
                 case "百战":
-                    
                     rootNode = mapper.readTree(HttpTool.getData("http://pigeon-server-developer:25555/api/image/active/monster"));
                     switch (rootNode.get("code").asInt()){
                         case 200:
@@ -139,7 +138,7 @@ static String temp;
                             mt = new MessageType("image",dataNode.get("url").asText());
                             break;
                         default:
-                            mt = new MessageType("text","暂未收录");
+                            mt = new MessageType("text","数据异常，可能是因为渡渡鸟没人陪！");
                             break;
                     }
                     break;
@@ -148,15 +147,14 @@ static String temp;
                 //region 更新日志
                 case "日志":
                 case "更新日志":
-                    String temp = "剑三鸽鸽Re 1.0 （开发版本号：2222）\\n"
-                            + "1. 修复了部分指令反馈错误的问题！！\\n"
-                            + "2. 优化了部分指令反馈排版问题！！\\n"
-                            + "3. 增加了魔盒文章查询！（仅支持工具，相关副本和职业攻略帖子）\\n";
+                    String temp = "剑三鸽鸽Re 1.1 （开发版本号：250）\\n"
+                            + "1. 预添加群组服务器绑定功能（未添加服务器则默认飞龙）\\n"
+                            + "2. 预添加群发维护公告功能\\n"
+                            + "3. 预添加开服、抓马播报以及马场查询\\n"
+                            + "4. 添加部分服务器别称\\n";
                     mt = new MessageType("text",temp);
-
                     break;
                 //endregion
-                //TODO: 临时借用
                 //region 帮助
                 case "帮助":
                 case "功能":
@@ -177,7 +175,7 @@ static String temp;
                             mt = new MessageType("text",temp);
                         break;
                         default:
-                            mt = new MessageType("text","我挂了");
+                            mt = new MessageType("text","数据异常，可能是因为渡渡鸟没人陪！");
                             break;
                     }
                     break;
@@ -192,7 +190,7 @@ static String temp;
                             mt = new MessageType("image",dataNode.get("url").asText());
                             break;
                         default:
-                            mt = new MessageType("text","响应异常，请联系管理");
+                            mt = new MessageType("text","数据异常，可能是因为渡渡鸟没人陪！");
                             break;
                     }
                     break;
@@ -457,7 +455,7 @@ static String temp;
                             mt = new MessageType("image",dataNode.get("url").asText());
                             break;
                         default:
-                            mt = new MessageType("text",!rootNode.get("msg").asText().isEmpty() ? rootNode.get("msg").asText() : !rootNode.get("message").asText().isEmpty() ? rootNode.get("message").asText() : "找渡渡鸟来修");
+                            mt = new MessageType("text",rootNode.get("msg") != null ? rootNode.get("msg").asText() : rootNode.get("message") != null ? rootNode.get("message").asText() : "找渡渡鸟来修");
                             break;
                     }
                     break;
@@ -495,7 +493,7 @@ static String temp;
                             mt = new MessageType("image",dataNode.get("url").asText());
                             break;
                         default:
-                            mt = new MessageType("text",!rootNode.get("msg").asText().isEmpty() ? rootNode.get("msg").asText() : !rootNode.get("message").asText().isEmpty() ? rootNode.get("message").asText() : "找渡渡鸟来修");
+                            mt = new MessageType("text",rootNode.get("msg") != null ? rootNode.get("msg").asText() : rootNode.get("message") != null ? rootNode.get("message").asText() : "找渡渡鸟来修");
                             break;
                     }
                 break;
@@ -516,7 +514,7 @@ static String temp;
                             mt = new MessageType("image",dataNode.get("url").asText());
                             break;
                         default:
-                            mt = new MessageType("text",!rootNode.get("msg").asText().isEmpty() ? rootNode.get("msg").asText() : !rootNode.get("message").asText().isEmpty() ? rootNode.get("message").asText() : "找渡渡鸟来修");
+                            mt = new MessageType("text",rootNode.get("msg") != null ? rootNode.get("msg").asText() : rootNode.get("message") != null ? rootNode.get("message").asText() : "找渡渡鸟来修");
                             break;
                     }
                     break;
@@ -530,7 +528,7 @@ static String temp;
                             mt = new MessageType("image",dataNode.get("url").asText());
                             break;
                         default:
-                            mt = new MessageType("text",!rootNode.get("msg").asText().isEmpty() ? rootNode.get("msg").asText() : !rootNode.get("message").asText().isEmpty() ? rootNode.get("message").asText() : "找渡渡鸟来修");
+                            mt = new MessageType("text",rootNode.get("msg") != null ? rootNode.get("msg").asText() : rootNode.get("message") != null ? rootNode.get("message").asText() : "找渡渡鸟来修");
                             break;
                     }
                     break;
@@ -552,7 +550,7 @@ static String temp;
                             mt = new MessageType("image",dataNode.get("url").asText());
                             break;
                         default:
-                            mt = new MessageType("text",!rootNode.get("msg").asText().isEmpty() ? rootNode.get("msg").asText() : !rootNode.get("message").asText().isEmpty() ? rootNode.get("message").asText() : "找渡渡鸟来修");
+                            mt = new MessageType("text",rootNode.get("msg") != null ? rootNode.get("msg").asText() : rootNode.get("message") != null ? rootNode.get("message").asText() : "找渡渡鸟来修");
                             break;
                     }
                     break;
@@ -571,7 +569,7 @@ static String temp;
                             mt = new MessageType("image",dataNode.get("url").asText());
                             break;
                         default:
-                            mt = new MessageType("text",!rootNode.get("msg").asText().isEmpty() ? rootNode.get("msg").asText() : !rootNode.get("message").asText().isEmpty() ? rootNode.get("message").asText() : "找渡渡鸟来修");
+                            mt = new MessageType("text",rootNode.get("msg") != null ? rootNode.get("msg").asText() : rootNode.get("message") != null ? rootNode.get("message").asText() : "找渡渡鸟来修");
                             break;
                     }
                     break;
@@ -586,8 +584,7 @@ static String temp;
                     switch (rootNode.get("code").asInt()){
                         case 200:
                             dataNode = rootNode.path("data");
-
-                            if (rootNode.get("data").size() > 0 || !rootNode.get("data").isEmpty()) {
+                            if (rootNode.get("data") != null || !rootNode.get("data").isEmpty()) {
                                 StringBuilder aa = new StringBuilder("以下是关于" + command[1] + "的魔盒搜索结果：\\n");
 
                                 for (int i = 0; i < rootNode.get("data").size(); i++) {
@@ -601,7 +598,7 @@ static String temp;
 ;
                             break;
                         default:
-                            mt = new MessageType("text","服务器响应异常，请联系管理或者核对参数后再次重试");
+                            mt = new MessageType("text","数据异常，可能是因为渡渡鸟没人陪！");
                             break;
                     }
                     break;
@@ -642,7 +639,7 @@ static String temp;
 
                             break;
                         default:
-                            mt = new MessageType("text",!rootNode.get("msg").asText().isEmpty() ? rootNode.get("msg").asText() : !rootNode.get("message").asText().isEmpty() ? rootNode.get("message").asText() : "找渡渡鸟来修");
+                            mt = new MessageType("text",rootNode.get("msg") != null ? rootNode.get("msg").asText() : rootNode.get("message") != null ? rootNode.get("message").asText() : "找渡渡鸟来修");
                             break;
                     }
                     break;
@@ -660,7 +657,7 @@ static String temp;
                             mt = new MessageType("image",dataNode.get("url").asText());
                             break;
                         default:
-                            mt = new MessageType("text",!rootNode.get("msg").asText().isEmpty() ? rootNode.get("msg").asText() : !rootNode.get("message").asText().isEmpty() ? rootNode.get("message").asText() : "找渡渡鸟来修");
+                            mt = new MessageType("text",rootNode.get("msg") != null ? rootNode.get("msg").asText() : rootNode.get("message") != null ? rootNode.get("message").asText() : "找渡渡鸟来修");
                             break;
                     }
                     break;
@@ -674,7 +671,7 @@ static String temp;
                             mt = new MessageType("image",dataNode.get("url").asText());
                             break;
                         default:
-                            mt = new MessageType("text",!rootNode.get("msg").asText().isEmpty() ? rootNode.get("msg").asText() : !rootNode.get("message").asText().isEmpty() ? rootNode.get("message").asText() : "找渡渡鸟来修");
+                            mt = new MessageType("text",rootNode.get("msg") != null ? rootNode.get("msg").asText() : rootNode.get("message") != null ? rootNode.get("message").asText() : "找渡渡鸟来修");
                     }
                     break;
                 //endregion
@@ -691,7 +688,7 @@ static String temp;
                             mt = new MessageType("image",dataNode.get("url").asText());
                             break;
                         default:
-                            mt = new MessageType("text",!rootNode.get("msg").asText().isEmpty() ? rootNode.get("msg").asText() : !rootNode.get("message").asText().isEmpty() ? rootNode.get("message").asText() : "找渡渡鸟来修");
+                            mt = new MessageType("text",rootNode.get("msg") != null ? rootNode.get("msg").asText() : rootNode.get("message") != null ? rootNode.get("message").asText() : "找渡渡鸟来修");
                             break;
                     }
                     break;
@@ -705,7 +702,7 @@ static String temp;
                             mt = new MessageType("text",dataNode.get("context").asText().replace("\n","\\n").replace("\\r","\\r"));
                             break;
                         default:
-                            mt = new MessageType("text","服务器响应异常，请联系管理或者核对参数后再次重试");
+                            mt = new MessageType("text","数据异常，可能是因为渡渡鸟没人陪！");
                             break;
                     }
                     break;
@@ -723,7 +720,7 @@ static String temp;
                             mt = new MessageType("image",dataNode.get("url").asText());
                             break;
                         default:
-                            mt = new MessageType("text",!rootNode.get("msg").asText().isEmpty() ? rootNode.get("msg").asText() : !rootNode.get("message").asText().isEmpty() ? rootNode.get("message").asText() : "找渡渡鸟来修");
+                            mt = new MessageType("text",rootNode.get("msg") != null ? rootNode.get("msg").asText() : rootNode.get("message") != null ? rootNode.get("message").asText() : "找渡渡鸟来修");
                             break;
                     }
                     break;

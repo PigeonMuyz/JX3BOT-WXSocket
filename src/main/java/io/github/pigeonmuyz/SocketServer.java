@@ -95,6 +95,7 @@ public class SocketServer extends WebSocketServer {
             }
         } catch (JsonProcessingException e) {
             //读取不了消息
+            sendMessage(new MessageType("text",e.getMessage()+"原始消息："+message),new UserType("wxid_2g1zjsej411w22","private"));
             throw new RuntimeException(e);
         }
     }
