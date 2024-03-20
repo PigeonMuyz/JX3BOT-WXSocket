@@ -1,0 +1,23 @@
+Configuration:
+  status: warn
+  Appenders:
+    Console:
+      name: Console
+      target: SYSTEM_OUT
+      PatternLayout:
+        pattern: "%-5p %d{yyyy-MM-dd HH:mm:ss} %c{1} : %m%n"
+    File:
+      name: File
+      fileName: log/log.log
+      PatternLayout:
+        pattern: "%-5p %d{yyyy-MM-dd HH:mm:ss} %c{1} : %m%n"
+      Policies:
+        TimeBasedTriggeringPolicy:
+          modulate: true
+          interval: 1
+  Loggers:
+    Root:
+      level: debug
+      AppenderRef:
+        - ref: Console
+        - ref: File
