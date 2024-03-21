@@ -105,14 +105,13 @@ public class MessageTool {
                             return new String[]{"text","数据异常，可能是因为渡渡鸟没人陪！"};
                     }
                 //endregion
-                //TODO: 临时抽调
                 //region 更新日志
                 case "日志":
                 case "更新日志":
                     String temp = "剑三鸽鸽Re 2.0 （开发版本号：咕咕咕）\\n"
                             + "1. 添加群组服务器绑定功能（未添加服务器则默认飞龙）\\n"
                             + "2. 添加激活功能！\\n"
-                            + "3. 未完全实现的推送新功能\\n"
+                            + "3. 推送新功能\\n"
                             + "4. 更加香喷喷了！\\n";
                     return new String[]{"text",temp};
                 //endregion
@@ -139,7 +138,6 @@ public class MessageTool {
                 //endregion
                 //region 公告
                 case "公告":
-
                     rootNode = mapper.readTree(HttpTool.getData(Main.configProperties.getProperty("config.serverUrl")+"/api/image/web/news/announce"));
                     switch (rootNode.get("code").asInt()){
                         case 200:

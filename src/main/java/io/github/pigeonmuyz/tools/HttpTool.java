@@ -79,11 +79,13 @@ public class HttpTool {
     }
 
     public static String getData(String url) throws IOException {
+        log.debug("GET请求地址："+url);
         return get(url).body().string();
     }
 
     public static String postData(String url,String json) throws IOException {
-        log.debug("请求地址："+url);
+        log.debug("POST请求地址："+url);
+        log.debug("POST请求数据："+json);
         return post(url, json).body().string();
     }
 }

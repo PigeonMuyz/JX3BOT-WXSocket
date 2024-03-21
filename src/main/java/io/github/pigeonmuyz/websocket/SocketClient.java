@@ -33,7 +33,7 @@ public class SocketClient extends WebSocketClient {
             if (jsonNode.get("action") != null){
                 switch (jsonNode.get("action").toString()){
                     case "2001":
-                        if (jsonNode.get("data").get("server").asText() == "飞龙在天"){
+                        if (jsonNode.get("data").get("server").asText().equals("飞龙在天")){
                             if (jsonNode.get("data").get("status").asInt() == 0){
                                 resultMessage = "开始维护辣！";
                             }else{
@@ -86,7 +86,7 @@ public class SocketClient extends WebSocketClient {
             }
             if (resultMessage != ""){
                 final String finalResultMessage = resultMessage;
-                Main.personal.stream().filter(messObject -> messObject.getIsActive() && messObject.isGroup())
+                Main.personal.stream().filter(messObject -> messObject.getIsActive() && messObject.isGroup() && messObject.getServerStatus().get(jsonNode.get("action").toString()) != null && messObject.getServerStatus().get(jsonNode.get("action").toString()))
                         .forEach(messObject -> {
                             WeChatHelper.sendMessage(messObject.getWechatID(),messObject.isGroup(),"text",finalResultMessage);
                         });
@@ -105,7 +105,7 @@ public class SocketClient extends WebSocketClient {
 
     @Override
     public void onError(Exception ex) {
-        System.out.println("發生錯誤: " + ex.getMessage());
+        log.error("错误\n"+ex.getMessage());
     }
 
     // 重連方法
@@ -114,10 +114,10 @@ public class SocketClient extends WebSocketClient {
         try {
             // 等待一段時間後重連
             Thread.sleep(5000);
-            System.out.println("正在重連...");
+            log.info("正在尝试重新连接JX3API WS服务");
             super.reconnect();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.error("JX3API侧掉线");
         }
     }
 
