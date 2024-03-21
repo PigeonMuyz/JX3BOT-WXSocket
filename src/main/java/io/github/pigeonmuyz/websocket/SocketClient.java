@@ -64,10 +64,10 @@ public class SocketClient extends WebSocketClient {
                         break;
                     case "2004":
                         resultMessage = String.format(
-                                "来自 %s吧 的%s" +
-                                        "标题：%s" +
-                                        "链接：%s" +
-                                        "日期：%s"
+                                "来自 %s吧 的%s\\n" +
+                                        "标题：%s\\n" +
+                                        "链接：%s\\n" +
+                                        "日期：%s\\n"
                                 ,jsonNode.get("data").get("name").asText()
                                 ,jsonNode.get("data").get("subclass").asText()
                                 ,jsonNode.get("data").get("title").asText()
