@@ -1,5 +1,6 @@
 package io.github.pigeonmuyz.entity;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -9,14 +10,19 @@ public class MessObject {
     public MessObject() {
     }
 
-    public MessObject(boolean isGroup, String wechatID, String wechatName, String bindServer, String master, Boolean isActive, Map<String, Boolean> serverStatus) {
+    public MessObject(boolean isGroup, String wechatID, String wechatName, String bindServer, String master, Boolean isActive) {
         this.isGroup = isGroup;
         this.wechatID = wechatID;
         this.wechatName = wechatName;
         this.bindServer = bindServer;
         this.master = master;
         this.isActive = isActive;
-        this.serverStatus = serverStatus;
+        this.serverStatus = new HashMap<String,Boolean>();
+        serverStatus.put("2001",false);
+        serverStatus.put("2002",false);
+        serverStatus.put("2003",false);
+        serverStatus.put("2004",false);
+        serverStatus.put("2006",false);
     }
 
     /**
