@@ -3,9 +3,12 @@ package io.github.pigeonmuyz.tools;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.pigeonmuyz.Main;
+import io.github.pigeonmuyz.entity.MessObject;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class MessageTool {
-
+    private final static Logger log = LogManager.getLogger(MessageTool.class);
     static ObjectMapper mapper = new ObjectMapper();
     static JsonNode rootNode;
     static JsonNode dataNode;
@@ -633,23 +636,24 @@ public class MessageTool {
                             return new String[]{"text",rootNode.get("msg") != null ? rootNode.get("msg").asText() : rootNode.get("message") != null ? rootNode.get("message").asText() : "找渡渡鸟来修"};
                     }
                 //endregion
-                //region 鸽子盘
+                //region 鸽子
                 case "渡渡鸟":
                     switch (command[1]){
-                        case "搜索":
+                        case "网盘":
                             if (command[2] != null) {
                                 rootNode = mapper.readTree(HttpTool.postData(Main.configProperties.getProperty("config.alistUrl")+"/api/fs/search",String.format("{\"parent\":\"/\",\"keywords\":\"%s\",\"scope\":0,\"page\":1,\"per_page\":100,\"password\":\"\"}",command[2])));
                                 if (rootNode.get("code").asInt() == 200){
-                                    if (rootNode.get("data").get("total").asInt()>0){
+                                    int total = rootNode.get("data").get("total").asInt();
+                                    if (total>0){
                                         dataNode = rootNode.get("data").get("content");
                                         String tempMessage = "以下是搜索到的渡渡鸟珍藏：\\n";
-                                        for (int i = 0; i < rootNode.get("data").get("total").asInt(); i++) {
-                                            if (i == 10){
+                                        for (int i = 0; i < total; i++) {
+                                            if (i == 10 || i == total-1){
                                                 tempMessage += "非特殊用户仅展示不超过10条";
                                                 return new String[]{"text",tempMessage};
                                             }
                                             if (!dataNode.get(i).get("is_dir").asBoolean()){
-                                                tempMessage += String.format("%s - 下载地址：%s\\n",dataNode.get(i).get("name"),Main.configProperties.getProperty("config.alistUrl")+"/d"+dataNode.get(i).get("parent")+"/"+dataNode.get(i).get("name"));
+                                                tempMessage += "文件：" + dataNode.get(i).get("name").asText() + (dataNode.get(i).get("name").asText().contains(".dat")?  "（写意脸型）":"（写实脸型）")+"\\n下载地址："+Main.configProperties.getProperty("config.alistUrl")+"/d"+dataNode.get(i).get("parent").asText()+"/"+dataNode.get(i).get("name").asText()+"\\n";
                                             }
                                         }
                                     }else{
@@ -659,8 +663,32 @@ public class MessageTool {
                             }else{
                                 return new String[]{"text","请输入正确的搜索关键词阿喂！！！"};
                             }
+                        case "":
                             break;
+                        default:
+                            return new String[]{"text","没这个功能！抬走下一位！😡"};
                     }
+                //endregion
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return new String[]{"",""};
+    }
+
+    public static String[] magicCommand(String[] command, String server, MessObject messObject){
+        try{
+            switch (command[0]){
+                //region 找情缘功能
+                case "发布情缘招募":
+                    break;
+                case "找情缘":
+                    break;
+                case "绑定情缘":
+                    break;
+                case "单思":
+                    break;
+                case "情缘":
                     break;
                 //endregion
             }
