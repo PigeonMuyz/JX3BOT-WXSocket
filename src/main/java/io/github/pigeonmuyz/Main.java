@@ -6,6 +6,7 @@ import io.github.pigeonmuyz.entity.MessObject;
 import io.github.pigeonmuyz.helper.MessFilter;
 import io.github.pigeonmuyz.tools.HttpTool;
 import io.github.pigeonmuyz.tools.ManualTimer;
+import io.github.pigeonmuyz.websocket.SocketClient;
 import io.github.pigeonmuyz.websocket.SocketServer;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
@@ -36,6 +37,8 @@ public class Main {
             ManualTimer timer = new ManualTimer(task, JSON_FILE_PATH);
             timer.start(20, 60);
             SocketServer s = new SocketServer(Integer.parseInt(configProperties.getProperty("config.wssport")));
+            SocketClient socketClient = new SocketClient(configProperties.getProperty("config.wssServiceUrl"));
+            socketClient.connect();
             s.start();
             MessFilter.initLanguageFilter();
             log.info("程序加载成功");
