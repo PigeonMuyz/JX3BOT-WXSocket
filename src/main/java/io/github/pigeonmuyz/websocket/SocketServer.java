@@ -82,12 +82,13 @@ public class SocketServer extends WebSocketServer {
                         wechatName = tempNode.get("data").get("user_name") != null ? tempNode.get("data").get("user_name").asText() : "未知";
                     }
                 }
-                MessObject messObject = new MessObject(isGroup,wechatId,wechatName,"","",false,new HashMap<String, Boolean>());
+                MessObject messObject = new MessObject(isGroup,wechatId,wechatName,"","",false);
                 log.info(String.format("新增%s用户：%s",isGroup? "群":"私聊",wechatName));
                 Main.personal.add(messObject);
             }
             // 触发并且被激活之后才可以安排
             if (Main.personal.stream().anyMatch(messObject -> messObject.getWechatID().equalsIgnoreCase(finalWechatId) && messObject.getIsActive())){
+                log.debug("激活用户发送的消息: "+jsonNode.get("alt_message").asText());
                 // 从这里开始处理消息并发送
                 Main.personal.stream().filter(messObject -> messObject.getWechatID().equalsIgnoreCase(finalWechatId))
                         .forEach(messObject -> {
@@ -102,6 +103,83 @@ public class SocketServer extends WebSocketServer {
                                     throw new RuntimeException(e);
                                 }
                             }
+                            /**
+                             * 群组主人消息处理模块
+                             */
+                            if (messObject.getMaster().equalsIgnoreCase(jsonNode.get("user_id").asText()) || jsonNode.get("user_id").asText().equalsIgnoreCase("carol0774")){
+                                if (messObject.isGroup()){
+                                    switch (jsonNode.get("alt_message").asText()){
+                                        case "开服状态":
+                                            if (messObject.getServerStatus().get("2001") != null) {
+                                                messObject.getServerStatus().put("2001", !messObject.getServerStatus().get("2001"));
+                                            } else {
+                                                messObject.getServerStatus().put("2001", true);
+                                            }
+                                            WeChatHelper.sendMessage(finalWechatId, finalIsGroup, "text", String.format("%s：%s推送成功",messObject.getServerStatus().get("2001") ? "开启":"关闭",jsonNode.get("alt_message").asText()));
+                                            break;
+                                        case "云从预告":
+                                            if (messObject.getServerStatus().get("2006") != null) {
+                                                messObject.getServerStatus().put("2006", !messObject.getServerStatus().get("2006"));
+                                            } else {
+                                                messObject.getServerStatus().put("2006", true);
+                                            }
+                                            WeChatHelper.sendMessage(finalWechatId, finalIsGroup, "text", String.format("%s：%s推送成功",messObject.getServerStatus().get("2006") ? "开启":"关闭",jsonNode.get("alt_message").asText()));
+                                            break;
+                                        case "八卦推送":
+                                            if (messObject.getServerStatus().get("2004") != null) {
+                                                messObject.getServerStatus().put("2004", !messObject.getServerStatus().get("2004"));
+                                            } else {
+                                                messObject.getServerStatus().put("2004", true);
+                                            }
+                                            WeChatHelper.sendMessage(finalWechatId, finalIsGroup, "text", String.format("%s：%s推送成功",messObject.getServerStatus().get("2004") ? "开启":"关闭",jsonNode.get("alt_message").asText()));
+                                            break;
+                                        case "版本更新":
+                                            if (messObject.getServerStatus().get("2003") != null) {
+                                                messObject.getServerStatus().put("2003", !messObject.getServerStatus().get("2003"));
+                                            } else {
+                                                messObject.getServerStatus().put("2003", true);
+                                            }
+                                            WeChatHelper.sendMessage(finalWechatId, finalIsGroup, "text", String.format("%s：%s推送成功",messObject.getServerStatus().get("2003") ? "开启":"关闭",jsonNode.get("alt_message").asText()));
+                                            break;
+                                        case "官方资讯":
+                                            if (messObject.getServerStatus().get("2002") != null) {
+                                                messObject.getServerStatus().put("2002", !messObject.getServerStatus().get("2002"));
+                                            } else {
+                                                messObject.getServerStatus().put("2002", true);
+                                            }
+                                            WeChatHelper.sendMessage(finalWechatId, finalIsGroup, "text", String.format("%s：%s推送成功",messObject.getServerStatus().get("2002") ? "开启":"关闭",jsonNode.get("alt_message").asText()));
+                                            break;
+                                        case "我全都要！！！":
+                                            messObject.getServerStatus().put("2002",true);
+                                            messObject.getServerStatus().put("2003",true);
+                                            messObject.getServerStatus().put("2004",true);
+                                            messObject.getServerStatus().put("2006",true);
+                                            messObject.getServerStatus().put("2001",true);
+                                            WeChatHelper.sendMessage(finalWechatId, finalIsGroup, "text", "所有消息推送开启成功！");
+                                            break;
+                                        case "推送状态":
+                                            String tempMessage = String.format(
+                                                    "群名：%s\\n" +
+                                                    "群ID：%s\\n" +
+                                                    "开服监控：%s\\n" +
+                                                    "贴吧吃瓜：%s\\n" +
+                                                    "版本更新：%s\\n" +
+                                                    "官方资讯：%s\\n" +
+                                                    "云从预告：%s"
+                                                    ,messObject.getWechatName()
+                                                    ,messObject.getWechatID()
+                                                    ,messObject.getServerStatus().get("2001")? "开启":"关闭"
+                                                    ,messObject.getServerStatus().get("2004")? "开启":"关闭"
+                                                    ,messObject.getServerStatus().get("2003")? "开启":"关闭"
+                                                    ,messObject.getServerStatus().get("2002")? "开启":"关闭"
+                                                    ,messObject.getServerStatus().get("2006")? "开启":"关闭");
+                                            WeChatHelper.sendMessage(finalWechatId, finalIsGroup, "text", tempMessage);
+
+                                            break;
+                                    }
+
+                                }
+                            }
                             //#region 消息处理模块
                             String[] command = jsonNode.get("alt_message").asText().split(" ");
                             String[] result = {"default",""};
@@ -109,8 +187,6 @@ public class SocketServer extends WebSocketServer {
                                 command = MessFilter.processString(jsonNode.get("alt_message").asText());
                             }
                             command[0] = languageFilter.get(command[0]) != null ? languageFilter.get(command[0]) : command[0];
-                            log.debug(command.length);
-                            log.debug(command[0]);
                             if (command.length > 1){
                                 result = MessageTool.multiCommand(command, messObject.getBindServer().isEmpty() ? "飞龙在天": messObject.getBindServer());
                             }else{
