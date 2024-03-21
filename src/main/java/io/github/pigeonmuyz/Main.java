@@ -24,6 +24,7 @@ public class Main {
     public static Properties configProperties = new Properties();
     public static List<MessObject> personal;
     private static final String JSON_FILE_PATH = "./personal.json";
+    private static final String IPHONE_FILE_PATH = "./personal.json";
     private static final ObjectMapper mapper = new ObjectMapper();
 
     public static void main(String[] args) {

@@ -633,7 +633,36 @@ public class MessageTool {
                             return new String[]{"text",rootNode.get("msg") != null ? rootNode.get("msg").asText() : rootNode.get("message") != null ? rootNode.get("message").asText() : "找渡渡鸟来修"};
                     }
                 //endregion
-
+                //region 鸽子盘
+                case "渡渡鸟":
+                    switch (command[1]){
+                        case "搜索":
+                            if (command[2] != null) {
+                                rootNode = mapper.readTree(HttpTool.postData(Main.configProperties.getProperty("config.alistUrl")+"/api/fs/search",String.format("{\"parent\":\"/\",\"keywords\":\"%s\",\"scope\":0,\"page\":1,\"per_page\":100,\"password\":\"\"}",command[2])));
+                                if (rootNode.get("code").asInt() == 200){
+                                    if (rootNode.get("data").get("total").asInt()>0){
+                                        dataNode = rootNode.get("data").get("content");
+                                        String tempMessage = "以下是搜索到的渡渡鸟珍藏：\\n";
+                                        for (int i = 0; i < rootNode.get("data").get("total").asInt(); i++) {
+                                            if (i == 10){
+                                                tempMessage += "非特殊用户仅展示不超过10条";
+                                                return new String[]{"text",tempMessage};
+                                            }
+                                            if (!dataNode.get(i).get("is_dir").asBoolean()){
+                                                tempMessage += String.format("%s - 下载地址：%s\\n",dataNode.get(i).get("name"),Main.configProperties.getProperty("config.alistUrl")+"/d"+dataNode.get(i).get("parent")+"/"+dataNode.get(i).get("name"));
+                                            }
+                                        }
+                                    }else{
+                                        return new String[]{"text","没有找到相关数据！"};
+                                    }
+                                }
+                            }else{
+                                return new String[]{"text","请输入正确的搜索关键词阿喂！！！"};
+                            }
+                            break;
+                    }
+                    break;
+                //endregion
             }
         }catch (Exception e){
             e.printStackTrace();
