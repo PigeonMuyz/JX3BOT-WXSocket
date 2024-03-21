@@ -64,7 +64,6 @@ public class Main {
     private static void writeToJsonFile(String filePath, List<MessObject> data) {
         try {
             mapper.writeValue(new File(filePath), data);
-            log.debug("配置文件写入成功");
         } catch (IOException e) {
             log.error("配置文件写入失败");
             e.printStackTrace();
