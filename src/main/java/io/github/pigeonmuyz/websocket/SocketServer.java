@@ -147,7 +147,7 @@ public class SocketServer extends WebSocketServer {
 
     @Override
     public void onStart() {
-        log.info("WSS连接成功");
+        log.info("WSS启动成功");
         setConnectionLostTimeout(0);
         setConnectionLostTimeout(100);
 
