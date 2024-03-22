@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.pigeonmuyz.Main;
 import io.github.pigeonmuyz.entity.MessObject;
+import io.github.pigeonmuyz.entity.MessageBottle;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -29,7 +31,7 @@ public class MessageTool {
                                     + "矿车：跨服•烂柯山\\n"
                                     + "战场：" + dataNode.get("battle").asText() + "\\n"
                                     + "【PVX日常】\\n"
-                                    + (dataNode.get("draw") != null  ? "美人图：" + dataNode.get("draw").asText() : "美人图：无")
+                                    + (dataNode.get("draw") != null  ? "美人图：" + dataNode.get("draw").asText()+"\\n" : "美人图：无\\n")
                                     + "门派事件：" + dataNode.get("school").asText() + "\\n"
                                     + String.format("福源宠物：%s;%s;%s\\n", dataNode.get("luck").get(0).asText(), dataNode.get("luck").get(1).asText(), dataNode.get("luck").get(2).asText())
                                     + "【PVE周常】\\n"
@@ -608,18 +610,15 @@ public class MessageTool {
                     }
                 //endregion
                 //region 宏
-                // TODO：待修复
-//                case "宏":
-//                    rootNode = mapper.readTree(HttpTool.getData(Main.configProperties.getProperty("config.serverUrl")+"/api/data/macros/jx3api?kungfu="+command[1]));
-//                    switch (rootNode.get("code").asInt()){
-//                        case 200:
-//                            dataNode = rootNode.path("data");
-//                            mt = new MessageType("text",dataNode.get("context").asText().replace("\n","\\n").replace("\\r","\\r"));
-//                            break;
-//                        default:
-//                            return new String[]{"text","数据异常，可能是因为渡渡鸟没人陪！"};
-//                    }
-//                    break;
+                case "宏":
+                    rootNode = mapper.readTree(HttpTool.getData(Main.configProperties.getProperty("config.serverUrl")+"/api/data/macros/jx3api?kungfu="+command[1]));
+                    switch (rootNode.get("code").asInt()){
+                        case 200:
+                            dataNode = rootNode.path("data");
+                            return new String[]{"text", StringEscapeUtils.escapeJava(dataNode.get("context").asText())};
+                        default:
+                            return new String[]{"text","数据异常，可能是因为渡渡鸟没人陪！"};
+                    }
                 //endregion
                 //region 掉落
                 case "掉落":
@@ -676,26 +675,5 @@ public class MessageTool {
         return new String[]{"",""};
     }
 
-    public static String[] magicCommand(String[] command, String server, MessObject messObject){
-        try{
-            switch (command[0]){
-                //region 找情缘功能
-                case "发布情缘招募":
-                    break;
-                case "找情缘":
-                    break;
-                case "绑定情缘":
-                    break;
-                case "单思":
-                    break;
-                case "情缘":
-                    break;
-                //endregion
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return new String[]{"",""};
-    }
 }
 
