@@ -1,6 +1,5 @@
 package io.github.pigeonmuyz.websocket;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.pigeonmuyz.Main;
@@ -18,21 +17,15 @@ import org.java_websocket.server.WebSocketServer;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.net.UnknownHostException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static io.github.pigeonmuyz.helper.MessFilter.languageFilter;
-import static io.github.pigeonmuyz.helper.MessFilter.processString;
 
 public class SocketServer extends WebSocketServer {
 
     private final static Logger log = LogManager.getLogger(SocketServer.class);
 
-    public SocketServer(int port) throws UnknownHostException {
+    public SocketServer(int port) {
         super(new InetSocketAddress(port));
         log.debug("当前WSS监听端口："+port);
     }
