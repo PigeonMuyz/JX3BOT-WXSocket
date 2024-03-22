@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.pigeonmuyz.Main;
 import io.github.pigeonmuyz.entity.MessObject;
+import io.github.pigeonmuyz.entity.MessageBottle;
 import io.github.pigeonmuyz.helper.MessFilter;
 import io.github.pigeonmuyz.helper.WeChatHelper;
 import io.github.pigeonmuyz.tools.HttpTool;
@@ -20,6 +21,7 @@ import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -180,8 +182,56 @@ public class SocketServer extends WebSocketServer {
 
                                 }
                             }
+
+
+
                             //#region 消息处理模块
                             String[] command = jsonNode.get("alt_message").asText().split(" ");
+                            //region 特殊消息处理模块
+                            try{
+                                switch (command[0]){
+                                    //region 漂流瓶功能
+                                    case "漂流瓶":
+                                        switch (command[1]){
+                                            case "丢出":
+                                                if (command[2] != null){
+                                                    if (command.length >3){
+                                                        String temp = command[2];
+                                                        for (int i = 0; i < command.length; i++) {
+                                                            if (i>=3){
+                                                                temp += command[i];
+                                                            }
+                                                        }
+                                                        Main.messsageBottles.add(new MessageBottle(temp,jsonNode.get("user_id").asText()));
+                                                    }else{
+                                                        Main.messsageBottles.add(new MessageBottle(command[2],jsonNode.get("user_id").asText()));
+                                                    }
+                                                    WeChatHelper.sendMessage(finalWechatId,finalIsGroup,"text","匿名漂流瓶已经丢完了！");
+                                                }else{
+                                                    WeChatHelper.sendMessage(finalWechatId,finalIsGroup,"text","来都来了，写一句话再走吧！");
+                                                }
+                                                break;
+                                        }
+                                    //endregion
+                                }
+                                switch (jsonNode.get("alt_message").asText()){
+                                    //region 漂流瓶功能
+                                    case "随机漂流瓶":
+                                        if (Main.messsageBottles.size() >= 1){
+                                            MessageBottle mb = Main.messsageBottles.get(new Random().nextInt(Main.messsageBottles.size()));
+                                            WeChatHelper.sendMessage(finalWechatId,finalIsGroup,"text",String.format("捡到一个匿名漂流瓶！！！\\n瓶子编号：%s...\\n瓶子内容：%s",mb.getUuid().substring(0,5),mb.getContent()));
+                                            break;
+                                        }else{
+                                            WeChatHelper.sendMessage(finalWechatId,finalIsGroup,"text","还没有瓶子哦！快自己来丢一个吧！");
+
+                                        }
+                                        break;
+                                    //endregion
+                                }
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
+                            //endregion
                             String[] result = {"default",""};
                             if (command.length == 1){
                                 command = MessFilter.processString(jsonNode.get("alt_message").asText());
