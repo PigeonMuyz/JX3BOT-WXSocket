@@ -4,9 +4,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.pigeonmuyz.Main;
 import io.github.pigeonmuyz.entity.MessObject;
-import io.github.pigeonmuyz.entity.MessageBottle;
 import io.github.pigeonmuyz.helper.MessFilter;
 import io.github.pigeonmuyz.helper.WeChatHelper;
+import io.github.pigeonmuyz.tools.CustomTimer;
 import io.github.pigeonmuyz.tools.HttpTool;
 import io.github.pigeonmuyz.tools.MessageTool;
 import org.apache.logging.log4j.LogManager;
@@ -17,7 +17,6 @@ import org.java_websocket.server.WebSocketServer;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.util.Random;
 
 import static io.github.pigeonmuyz.helper.MessFilter.languageFilter;
 
@@ -169,8 +168,41 @@ public class SocketServer extends WebSocketServer {
                                                     ,messObject.getServerStatus().get("2002")? "开启":"关闭"
                                                     ,messObject.getServerStatus().get("2006")? "开启":"关闭");
                                             WeChatHelper.sendMessage(finalWechatId, finalIsGroup, "text", tempMessage);
-
                                             break;
+                                        //region 订阅招募
+                                        case "订阅招募":
+                                            if (jsonNode.get("alt_message").asText().split(" ").length>1){
+                                                CustomTimer ct = new CustomTimer();
+                                                ct.start(new Runnable() {
+                                                    String wechatId = finalWechatId;
+                                                    boolean isGroup = finalIsGroup;
+                                                    JsonNode rootNode;
+                                                    JsonNode tempNode;
+                                                    @Override
+                                                    public void run() {
+                                                        try {
+                                                            rootNode = new ObjectMapper().readTree(HttpTool.getData(String.format("%s/api/data/teamactivity?server=%s&keyword=%s",Main.configProperties.getProperty("config.serverUrl"),messObject.getBindServer(),jsonNode.get("alt_message").asText().split(" ")[1])));
+                                                            if (rootNode.get("code").asInt() == 200){
+                                                                tempNode = rootNode.get("data").get(0);
+                                                                String tempMessage = String.format(
+                                                                        "【招募活动】：%s\\n【队长】：%s\\n【人数】：%s/%s\\n【招募信息】：%s"
+                                                                        ,tempNode.get("activity").asText()
+                                                                        ,tempNode.get("leader").asText()
+                                                                        ,tempNode.get("number").asText()
+                                                                        ,tempNode.get("maxNumber").asText()
+                                                                        ,tempNode.get("content").asText());
+                                                                WeChatHelper.sendMessage(wechatId,isGroup,"text",tempMessage);
+                                                            }
+                                                        } catch (IOException e) {
+                                                            throw new RuntimeException(e);
+                                                        }
+                                                    }
+                                                });
+                                            }else{
+                                                WeChatHelper.sendMessage(finalWechatId, finalIsGroup, "text","请输入关键字");
+                                            }
+                                            break;
+                                        //endregion
                                     }
 
                                 }
@@ -180,51 +212,6 @@ public class SocketServer extends WebSocketServer {
 
                             //#region 消息处理模块
                             String[] command = jsonNode.get("alt_message").asText().split(" ");
-                            //region 特殊消息处理模块
-                            try{
-                                switch (command[0]){
-                                    //region 漂流瓶功能
-                                    case "漂流瓶":
-                                        switch (command[1]){
-                                            case "丢出":
-                                                if (command[2] != null){
-                                                    if (command.length >3){
-                                                        String temp = command[2];
-                                                        for (int i = 0; i < command.length; i++) {
-                                                            if (i>=3){
-                                                                temp += command[i];
-                                                            }
-                                                        }
-                                                        Main.messsageBottles.add(new MessageBottle(temp,jsonNode.get("user_id").asText()));
-                                                    }else{
-                                                        Main.messsageBottles.add(new MessageBottle(command[2],jsonNode.get("user_id").asText()));
-                                                    }
-                                                    WeChatHelper.sendMessage(finalWechatId,finalIsGroup,"text","匿名漂流瓶已经丢完了！");
-                                                }else{
-                                                    WeChatHelper.sendMessage(finalWechatId,finalIsGroup,"text","来都来了，写一句话再走吧！");
-                                                }
-                                                break;
-                                        }
-                                    //endregion
-                                }
-                                switch (jsonNode.get("alt_message").asText()){
-                                    //region 漂流瓶功能
-                                    case "随机漂流瓶":
-                                        if (Main.messsageBottles.size() >= 1){
-                                            MessageBottle mb = Main.messsageBottles.get(new Random().nextInt(Main.messsageBottles.size()));
-                                            WeChatHelper.sendMessage(finalWechatId,finalIsGroup,"text",String.format("捡到一个匿名漂流瓶！！！\\n瓶子编号：%s...\\n瓶子内容：%s",mb.getUuid().substring(0,5),mb.getContent()));
-                                            break;
-                                        }else{
-                                            WeChatHelper.sendMessage(finalWechatId,finalIsGroup,"text","还没有瓶子哦！快自己来丢一个吧！");
-
-                                        }
-                                        break;
-                                    //endregion
-                                }
-                            }catch (Exception e){
-                                e.printStackTrace();
-                            }
-                            //endregion
                             String[] result = {"default",""};
                             if (command.length == 1){
                                 command = MessFilter.processString(jsonNode.get("alt_message").asText());
