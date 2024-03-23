@@ -51,6 +51,7 @@ public class SocketServer extends WebSocketServer {
             JsonNode jsonNode = new ObjectMapper().readTree(message);
             Boolean isGroup = false;
             String wechatId = "";
+
             if (jsonNode.get("detail_type") != null){
                 if(jsonNode.get("detail_type").asText().equalsIgnoreCase("group")){
                     isGroup = true;
@@ -59,23 +60,29 @@ public class SocketServer extends WebSocketServer {
                     wechatId = jsonNode.get("user_id").asText();
                 }
             }
+
             final String finalWechatId = wechatId;
             final Boolean finalIsGroup = isGroup;
+
             // 当用户首次触发之后，且没有被记录之后
             if (!Main.personal.stream().anyMatch(messObject -> messObject.getWechatID().equalsIgnoreCase(finalWechatId))){
+                // 微信名
                 String wechatName ="";
                 JsonNode tempNode;
                 if (isGroup){
+                    // 查群名
                     tempNode = new ObjectMapper().readTree(HttpTool.postData(Main.configProperties.getProperty("config.wechatRollbackUrl"),String.format("{\"action\":\"get_group_info\",\"params\":{\"group_id\":\"%s\"}}", wechatId)));
                     if (tempNode.get("data") != null){
                         wechatName = tempNode.get("data").get("group_name") != null ? tempNode.get("data").get("group_name").asText() : "未知";
                     }
                 }else{
+                    // 查用户名
                     tempNode = new ObjectMapper().readTree(HttpTool.postData(Main.configProperties.getProperty("config.wechatRollbackUrl"),String.format("{\"action\":\"get_user_info\",\"params\":{\"user_id\":\"%s\"}}", wechatId)));
                     if (tempNode.get("data") != null){
                         wechatName = tempNode.get("data").get("user_name") != null ? tempNode.get("data").get("user_name").asText() : "未知";
                     }
                 }
+                // 写入记录
                 MessObject messObject = new MessObject(isGroup,wechatId,wechatName,"","",false);
                 log.info(String.format("新增%s用户：%s",isGroup? "群":"私聊",wechatName));
                 Main.personal.add(messObject);
@@ -84,8 +91,10 @@ public class SocketServer extends WebSocketServer {
             if (Main.personal.stream().anyMatch(messObject -> messObject.getWechatID().equalsIgnoreCase(finalWechatId) && messObject.getIsActive())){
                 log.debug("激活用户发送的消息: "+jsonNode.get("alt_message").asText());
                 // 从这里开始处理消息并发送
+
                 Main.personal.stream().filter(messObject -> messObject.getWechatID().equalsIgnoreCase(finalWechatId))
                         .forEach(messObject -> {
+                            // 绑定服务器消息处理（主人，作者）
                             if (jsonNode.get("alt_message").asText().split(" ")[0].equals("绑定") && messObject.getMaster().equalsIgnoreCase(jsonNode.get("user_id").asText()) && jsonNode.get("alt_message").asText().split(" ").length > 1){
                                 try {
                                     JsonNode temp = new ObjectMapper().readTree(HttpTool.getData(Main.configProperties.getProperty("config.serverUrl")+"/api/data/serverCheck?server="+jsonNode.get("alt_message").asText().split(" ")[1]));
@@ -209,7 +218,8 @@ public class SocketServer extends WebSocketServer {
 
                                 }
                             }
-                            //#region 消息处理模块
+
+                            //#region 普通消息处理模块
                             String[] command = jsonNode.get("alt_message").asText().split(" ");
                             String[] result = {"default",""};
                             if (command.length == 1){
@@ -243,6 +253,7 @@ public class SocketServer extends WebSocketServer {
             log.error("WSS处理消息侧报错");
             e.printStackTrace();
         }
+
     }
 
     @Override
