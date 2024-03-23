@@ -158,7 +158,7 @@ public class MessFilter {
 
         //region 绑定
         tempMap.put("绑定","绑定");
-        tempMap.put("updatelog","日志");
+        tempMap.put("bind","绑定");
         tempMap.put("日誌","日志");
         //endregion
         log.info("语言过滤器初始化成功");
@@ -192,12 +192,11 @@ public class MessFilter {
             Pattern pattern = Pattern.compile(patternStr);
             Matcher matcher = pattern.matcher(input);
             if (matcher.find()) {
-                log.debug("语言筛选完毕"+new String[]{matcher.group(2), matcher.group(1)});
+                log.debug("语言筛选完毕"+new String[]{languageFilter.getOrDefault(matcher.group(2),matcher.group(2)), matcher.group(1)});
                 return new String[]{matcher.group(2), matcher.group(1)};
             }
         }
         log.debug("原始数据："+input);
-        log.debug("语言非标准格式");
         return new String[]{input};
     }
 }
