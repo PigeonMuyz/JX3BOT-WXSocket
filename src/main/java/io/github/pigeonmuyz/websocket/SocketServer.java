@@ -235,7 +235,7 @@ public class SocketServer extends WebSocketServer {
                                 messObject.setMaster(jsonNode.get("user_id").asText());
                                 messObject.setIsActive(true);
                                 // 给予用户反馈
-                                WeChatHelper.sendMessage(finalWechatId, finalIsGroup, "text", "尊敬的Master！恭喜你领养成功！");
+                                WeChatHelper.sendMessage(finalWechatId, finalIsGroup, "text", "尊贵的Master！恭喜你领养成功！🌟🌟🌟");
                             }
                         });
             }
