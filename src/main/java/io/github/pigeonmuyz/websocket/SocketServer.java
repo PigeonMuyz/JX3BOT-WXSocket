@@ -102,7 +102,7 @@ public class SocketServer extends WebSocketServer {
                              */
                             if (messObject.getMaster().equalsIgnoreCase(jsonNode.get("user_id").asText()) || jsonNode.get("user_id").asText().equalsIgnoreCase("carol0774")){
                                 if (messObject.isGroup()){
-                                    switch (jsonNode.get("alt_message").asText()){
+                                    switch (jsonNode.get("alt_message").asText().split(" ")[0]){
                                         case "开服状态":
                                             if (messObject.getServerStatus().get("2001") != null) {
                                                 messObject.getServerStatus().put("2001", !messObject.getServerStatus().get("2001"));
@@ -171,33 +171,35 @@ public class SocketServer extends WebSocketServer {
                                             break;
                                         //region 订阅招募
                                         case "订阅招募":
-                                            if (jsonNode.get("alt_message").asText().split(" ").length>1){
-                                                CustomTimer ct = new CustomTimer();
-                                                ct.start(new Runnable() {
-                                                    String wechatId = finalWechatId;
-                                                    boolean isGroup = finalIsGroup;
+                                            if (jsonNode.get("alt_message").asText().split(" ").length>=1){
+                                                new CustomTimer().start(new Runnable() {
                                                     JsonNode rootNode;
                                                     JsonNode tempNode;
                                                     @Override
                                                     public void run() {
+                                                        log.debug("订阅招募启动");
                                                         try {
                                                             rootNode = new ObjectMapper().readTree(HttpTool.getData(String.format("%s/api/data/teamactivity?server=%s&keyword=%s",Main.configProperties.getProperty("config.serverUrl"),messObject.getBindServer(),jsonNode.get("alt_message").asText().split(" ")[1])));
                                                             if (rootNode.get("code").asInt() == 200){
-                                                                tempNode = rootNode.get("data").get(0);
+                                                                tempNode = rootNode.get("data").get("data").get(0);
                                                                 String tempMessage = String.format(
-                                                                        "【招募活动】：%s\\n【队长】：%s\\n【人数】：%s/%s\\n【招募信息】：%s"
+                                                                        "【%s-招募活动】：%s\\n【队长】：%s\\n【人数】：%s/%s\\n【招募信息】：%s"
+                                                                        ,tempNode.get("crossServer").asBoolean(false) ? "跨服" : "本服"
                                                                         ,tempNode.get("activity").asText()
                                                                         ,tempNode.get("leader").asText()
                                                                         ,tempNode.get("number").asText()
                                                                         ,tempNode.get("maxNumber").asText()
                                                                         ,tempNode.get("content").asText());
-                                                                WeChatHelper.sendMessage(wechatId,isGroup,"text",tempMessage);
+                                                                WeChatHelper.sendMessage(finalWechatId,finalIsGroup,"text",tempMessage);
                                                             }
-                                                        } catch (IOException e) {
-                                                            throw new RuntimeException(e);
+                                                        } catch (Exception e) {
+                                                            log.error(e.getMessage());
+                                                            e.printStackTrace();
                                                         }
                                                     }
                                                 });
+                                                WeChatHelper.sendMessage(finalWechatId, finalIsGroup, "text","订阅成功（30秒推送一次，10分钟之后将会自动取消订阅）");
+
                                             }else{
                                                 WeChatHelper.sendMessage(finalWechatId, finalIsGroup, "text","请输入关键字");
                                             }
@@ -207,9 +209,6 @@ public class SocketServer extends WebSocketServer {
 
                                 }
                             }
-
-
-
                             //#region 消息处理模块
                             String[] command = jsonNode.get("alt_message").asText().split(" ");
                             String[] result = {"default",""};
