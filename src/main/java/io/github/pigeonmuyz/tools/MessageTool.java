@@ -3,8 +3,6 @@ package io.github.pigeonmuyz.tools;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.pigeonmuyz.Main;
-import io.github.pigeonmuyz.entity.MessObject;
-import io.github.pigeonmuyz.entity.MessageBottle;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -597,9 +595,9 @@ public class MessageTool {
                 //region 成就相关实现
                 case "成就":
                     if (command.length >= 4){
-                        rootNode = mapper.readTree(HttpTool.getData("http://api.muyz.xyz:25555/api/image/role/achievement?server="+command[1]+"&role="+command[2]+"&name="+command[3]));
+                        rootNode = mapper.readTree(HttpTool.getData(Main.configProperties.getProperty("config.serverUrl")+"/api/image/role/achievement?server="+command[1]+"&role="+command[2]+"&name="+command[3]));
                     }else {
-                        rootNode = mapper.readTree(HttpTool.getData("http://api.muyz.xyz:25555/api/image/role/achievement?server="+server+"&role="+command[1]+"&name="+command[2]));
+                        rootNode = mapper.readTree(HttpTool.getData(Main.configProperties.getProperty("config.serverUrl")+"/api/image/role/achievement?server="+server+"&role="+command[1]+"&name="+command[2]));
                     }
                     switch (rootNode.get("code").asInt()){
                         case 200:
