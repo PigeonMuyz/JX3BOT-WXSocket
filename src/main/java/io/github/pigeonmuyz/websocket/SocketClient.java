@@ -98,9 +98,8 @@ public class SocketClient extends WebSocketClient {
 
     @Override
     public void onClose(int code, String reason, boolean remote) {
-
         // 嘗試重連邏輯
-        reconnect();
+        new Thread(this::reconnect).start();
     }
 
     @Override
@@ -111,19 +110,17 @@ public class SocketClient extends WebSocketClient {
     // 重連方法
     public void reconnect() {
         // 這裡可以添加重連條件和重連次數限制
-        try {
-            // 等待一段時間後重連
-            Thread.sleep(5000);
-            log.info("正在尝试重新连接JX3API WS服务");
-            super.reconnect();
-        } catch (InterruptedException e) {
-            log.error("JX3API侧掉线");
+        while (!this.isOpen()) { // 当连接状态为false时，持续尝试重连
+            try {
+                // 等待一段時間後重連
+                Thread.sleep(5000);
+                log.info("正在尝试重新连接JX3API WS服务");
+                super.reconnectBlocking();
+            } catch (InterruptedException e) {
+                log.error("JX3API侧掉线");
+            }
         }
     }
 
-//    public static void main(String[] args) throws Exception {
-//        AutoReconnectWebSocketClient client = new AutoReconnectWebSocketClient(new URI("ws://localhost:8887"));
-//        client.connect();
-//    }
 }
 
