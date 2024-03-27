@@ -633,6 +633,30 @@ public class MessageTool {
                             return new String[]{"text",rootNode.get("msg") != null ? rootNode.get("msg").asText() : rootNode.get("message") != null ? rootNode.get("message").asText() : "找渡渡鸟来修"};
                     }
                 //endregion
+                //region 交易行
+                case "交易行":
+                    if (command.length>=3){
+                        rootNode = mapper.readTree(HttpTool.getData(Main.configProperties.getProperty("config.serverUrl")+"/pigeon/image/itemprice?server="+command[1]+"&name="+command[2]));
+                    }else{
+                        rootNode = mapper.readTree(HttpTool.getData(Main.configProperties.getProperty("config.serverUrl")+"/pigeon/image/itemprice?server="+server+"&name="+command[1]));
+                    }
+                    switch (rootNode.get("code").asInt()){
+                        case 200:
+                            return new String[]{"image",dataNode.get("data").asText()};
+                        default:
+                            return new String[]{"text",rootNode.get("msg") != null ? rootNode.get("msg").asText() : rootNode.get("message") != null ? rootNode.get("message").asText() : "找渡渡鸟来修"};
+                    }
+                //endregion
+                //region 无头浏览
+                case "无头浏览":
+                    rootNode = mapper.readTree(HttpTool.getData(Main.configProperties.getProperty("config.serverUrl")+"/pigeon/image/screenPage?url="+command[1]+"&width="+command[2]));
+                    switch (rootNode.get("code").asInt()){
+                        case 200:
+                            return new String[]{"image",dataNode.get("data").asText()};
+                        default:
+                            return new String[]{"text",rootNode.get("msg") != null ? rootNode.get("msg").asText() : rootNode.get("message") != null ? rootNode.get("message").asText() : "找渡渡鸟来修"};
+                    }
+                //endregion
                 //region 鸽子
                 case "渡渡鸟":
                     switch (command[1]){

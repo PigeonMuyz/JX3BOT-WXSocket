@@ -63,7 +63,7 @@ public class SocketServer extends WebSocketServer {
 
             final String finalWechatId = wechatId;
             final Boolean finalIsGroup = isGroup;
-
+            // TODO:wxid_2g1zjsej411w22黑名单
             // 当用户首次触发之后，且没有被记录之后
             if (!Main.personal.stream().anyMatch(messObject -> messObject.getWechatID().equalsIgnoreCase(finalWechatId))){
                 // 微信名
@@ -218,7 +218,6 @@ public class SocketServer extends WebSocketServer {
 
                                 }
                             }
-
                             //#region 普通消息处理模块
                             String[] command = jsonNode.get("alt_message").asText().split(" ");
                             String[] result = {"default",""};
