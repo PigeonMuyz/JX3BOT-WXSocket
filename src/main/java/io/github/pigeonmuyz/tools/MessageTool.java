@@ -636,9 +636,9 @@ public class MessageTool {
                 //region 交易行
                 case "交易行":
                     if (command.length>=3){
-                        rootNode = mapper.readTree(HttpTool.getData(Main.configProperties.getProperty("config.serverUrl")+"/pigeon/image/itemprice?server="+command[1]+"&name="+command[2]));
+                        rootNode = mapper.readTree(HttpTool.getData(Main.configProperties.getProperty("config.serverUrl")+"/pigeon/image/itemprice?server="+command[1]+"&keyword="+command[2]));
                     }else{
-                        rootNode = mapper.readTree(HttpTool.getData(Main.configProperties.getProperty("config.serverUrl")+"/pigeon/image/itemprice?server="+server+"&name="+command[1]));
+                        rootNode = mapper.readTree(HttpTool.getData(Main.configProperties.getProperty("config.serverUrl")+"/pigeon/image/itemprice?server="+server+"&keyword="+command[1]));
                     }
                     switch (rootNode.get("code").asInt()){
                         case 200:
