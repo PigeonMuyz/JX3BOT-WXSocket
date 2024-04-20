@@ -66,7 +66,7 @@ public class MessageTool {
                 //region 团队招募
                 case "招募":
                 case "团队招募":
-                    rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/api/image/member/recruit?server="+server));
+                    rootNode = mapper.readTree(HttpTool.getData(Main.configProperties.getProperty("config.serverUrl")+"/api/image/member/recruit?server="+server));
                     switch (rootNode.get("code").asInt()){
                         case 200:
                             dataNode = rootNode.path("data");
