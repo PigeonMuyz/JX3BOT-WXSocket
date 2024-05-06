@@ -86,6 +86,8 @@ public class HttpTool {
     public static String postData(String url,String json) throws IOException {
         log.debug("POST请求地址："+url);
         log.debug("POST请求数据："+json);
-        return post(url, json).body().string();
+        String returnResult = post(url, json).body().string();
+//        System.out.println(returnResult);
+        return returnResult;
     }
 }

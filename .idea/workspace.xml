@@ -5,7 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="897e255e-5134-4815-a6f9-f86d2e454e9c" name="Changes" comment="!">
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/pigeonmuyz/SocketServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/pigeonmuyz/SocketServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/pigeonmuyz/tools/HttpTool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/pigeonmuyz/tools/HttpTool.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/config.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,6 +26,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "PigeonMuyz"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/PigeonMuyz/JX3BOT-WXSocket.git",
+    "accountId": "f893215a-1879-49dc-aba6-0fb883dc75d7"
+  }
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -43,13 +59,13 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/myydd/IdeaProjects/WebSocketServerSimple/src/main/java/io/github/pigeonmuyz",
+    "last_opened_file_path": "C:/Users/myydd/IdeaProjects/JX3BOT-WXSocket",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.keymap",
+    "settings.editor.selected.configurable": "File.Encoding",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -61,7 +77,7 @@
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="io.github.pigeonmuyz.Main" />
-      <module name="JX3BOT-WX" />
+      <module name="JX3BOT-WXSocket" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="io.github.pigeonmuyz.*" />
@@ -91,6 +107,14 @@
       </list>
     </recent_temporary>
   </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-18abd8497189-intellij.indexing.shared.core-IU-241.14494.240" />
+        <option value="bundled-js-predefined-1d06a55b98c1-74d2a5396914-JavaScript-IU-241.14494.240" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -102,6 +126,10 @@
       <workItem from="1702027225817" duration="4261000" />
       <workItem from="1702084741283" duration="4026000" />
       <workItem from="1702089175672" duration="3997000" />
+      <workItem from="1703594099725" duration="5659000" />
+      <workItem from="1703599819029" duration="35000" />
+      <workItem from="1712907598046" duration="3071000" />
+      <workItem from="1714957354458" duration="718000" />
     </task>
     <task id="LOCAL-00001" summary="从JX3BOT-KOOK迁移完成">
       <option name="closed" value="true" />
