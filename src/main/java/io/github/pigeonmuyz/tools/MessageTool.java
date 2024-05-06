@@ -684,10 +684,8 @@ public class MessageTool {
                             }else{
                                 return new String[]{"text","请输入正确的搜索关键词阿喂！！！"};
                             }
-                        case "":
-                            break;
                         default:
-                            return new String[]{"text","没这个功能！抬走下一位！😡"};
+                            return new String[]{"text","渡渡鸟道心破碎。人无了🔪♥"};
                     }
                 //endregion
             }
