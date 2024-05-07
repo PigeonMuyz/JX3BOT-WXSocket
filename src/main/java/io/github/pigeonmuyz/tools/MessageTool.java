@@ -685,7 +685,7 @@ public class MessageTool {
                                 return new String[]{"text","请输入正确的搜索关键词阿喂！！！"};
                             }
                         default:
-                            return new String[]{"text","渡渡鸟道心破碎。人无了🔪♥"};
+                            return new String[]{"text","你小子😠🔪"};
                     }
                 //endregion
             }

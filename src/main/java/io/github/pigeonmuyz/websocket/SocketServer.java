@@ -63,7 +63,7 @@ public class SocketServer extends WebSocketServer {
 
             final String finalWechatId = wechatId;
             final Boolean finalIsGroup = isGroup;
-            // TODO:wxid_2g1zjsej411w22黑名单
+            // TODO:wxid_2g1zjsej411w22黑名单还没做
             // 当用户首次触发之后，且没有被记录之后
             if (!Main.personal.stream().anyMatch(messObject -> messObject.getWechatID().equalsIgnoreCase(finalWechatId))){
                 // 微信名
@@ -91,7 +91,14 @@ public class SocketServer extends WebSocketServer {
             if (Main.personal.stream().anyMatch(messObject -> messObject.getWechatID().equalsIgnoreCase(finalWechatId) && messObject.getIsActive())){
                 log.debug("激活用户发送的消息: "+jsonNode.get("alt_message").asText());
                 // 从这里开始处理消息并发送
-
+                String[] messageSplits = jsonNode.get("alt_message").asText().split("，");
+                if (messageSplits.length >= 2 && messageSplits[0].equals("渡渡鸟渡渡鸟")){
+                    JsonNode temp = new ObjectMapper().readTree(HttpTool.getData("http://pigeon-server-ubuntu:65510/ai/pigeon?questsion="+messageSplits));
+                    WeChatHelper.sendMessage(finalWechatId,finalIsGroup,"text","测试版，请让我回复完消息之后再问下一个问题！");
+                    if (temp.get("data") != null){
+                        WeChatHelper.sendMessage(finalWechatId,finalIsGroup,"text",temp.get("data").asText());
+                    }
+                }
                 Main.personal.stream().filter(messObject -> messObject.getWechatID().equalsIgnoreCase(finalWechatId))
                         .forEach(messObject -> {
                             // 绑定服务器消息处理（主人，作者）
