@@ -93,7 +93,7 @@ public class SocketServer extends WebSocketServer {
                 // 从这里开始处理消息并发送
                 String[] messageSplits = jsonNode.get("alt_message").asText().split("，");
                 if (messageSplits.length >= 2 && messageSplits[0].equals("渡渡鸟渡渡鸟")){
-                    JsonNode temp = new ObjectMapper().readTree(HttpTool.getData("http://pigeon-server-ubuntu:65510/ai/pigeon?questsion="+messageSplits));
+                    JsonNode temp = new ObjectMapper().readTree(HttpTool.getData("http://pigeon-server-ubuntu:65510/ai/pigeon?questsion="+jsonNode.get("alt_message").asText()));
                     WeChatHelper.sendMessage(finalWechatId,finalIsGroup,"text","测试版，请让我回复完消息之后再问下一个问题！");
                     if (temp.get("data") != null){
                         WeChatHelper.sendMessage(finalWechatId,finalIsGroup,"text",temp.get("data").asText());
