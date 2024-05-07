@@ -9,6 +9,7 @@ import io.github.pigeonmuyz.helper.WeChatHelper;
 import io.github.pigeonmuyz.tools.CustomTimer;
 import io.github.pigeonmuyz.tools.HttpTool;
 import io.github.pigeonmuyz.tools.MessageTool;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.java_websocket.WebSocket;
@@ -96,7 +97,7 @@ public class SocketServer extends WebSocketServer {
                     WeChatHelper.sendMessage(finalWechatId,finalIsGroup,"text","测试版，请让我回复完消息之后再问下一个问题！");
                     JsonNode temp = new ObjectMapper().readTree(HttpTool.getData("http://pigeon-server-ubuntu:65510/ai/pigeon?question="+jsonNode.get("alt_message").asText()));
                     if (temp.get("data") != null){
-                        WeChatHelper.sendMessage(finalWechatId,finalIsGroup,"text",temp.get("data").asText());
+                        WeChatHelper.sendMessage(finalWechatId,finalIsGroup,"text", StringEscapeUtils.escapeJava(temp.get("data").asText()));
                     }
                 }
                 Main.personal.stream().filter(messObject -> messObject.getWechatID().equalsIgnoreCase(finalWechatId))
