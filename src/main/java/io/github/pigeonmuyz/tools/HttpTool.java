@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -18,9 +19,12 @@ import java.util.List;
 public class HttpTool {
     private static final Logger log = LogManager.getLogger(HttpTool.class);
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-    private static OkHttpClient client = new OkHttpClient();
+    private static OkHttpClient client = new OkHttpClient.Builder()
+            .readTimeout(60, TimeUnit.SECONDS)
+            .writeTimeout(60, TimeUnit.SECONDS)
+            .connectTimeout(60, TimeUnit.SECONDS)
+            .build();
     private static String computerId = "";
-
     public static Response post(String url, String json) throws IOException {
         RequestBody body = RequestBody.create(JSON, json);
         Request request = new Request.Builder()
