@@ -612,8 +612,7 @@ public class MessageTool {
                     rootNode = mapper.readTree(HttpTool.getData(Main.configProperties.getProperty("config.serverUrl")+"/api/data/macros/jx3api?kungfu="+command[1]));
                     switch (rootNode.get("code").asInt()){
                         case 200:
-                            dataNode = rootNode.path("data");
-                            return new String[]{"text", StringEscapeUtils.escapeJava(dataNode.get("context").asText())};
+                            return new String[]{"text", StringEscapeUtils.escapeJava(rootNode.get("data").asText())};
                         default:
                             return new String[]{"text","数据异常，可能是因为渡渡鸟没人陪！"};
                     }
