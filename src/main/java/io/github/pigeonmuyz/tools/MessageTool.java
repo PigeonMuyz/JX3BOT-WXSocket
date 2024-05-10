@@ -150,7 +150,7 @@ public class MessageTool {
                             return new String[]{"text","数据异常，可能是因为渡渡鸟没人陪！"};
                     }
                 case "掉落":
-                    rootNode = mapper.readTree(HttpTool.getData(Main.configProperties.getProperty("config.serverUrl")+"/api/image/valuables/statistical?server="+server));
+                    rootNode = mapper.readTree(HttpTool.getData(Main.configProperties.getProperty("config.serverUrl")+"/api/image/valuables/collect?server="+server));
                     switch (rootNode.get("code").asInt()){
                         case 200:
                             dataNode = rootNode.path("data");
@@ -628,7 +628,7 @@ public class MessageTool {
                 //endregion
                 //region 掉落
                 case "掉落":
-                        rootNode = mapper.readTree(HttpTool.getData(Main.configProperties.getProperty("config.serverUrl")+"/api/image/valuables/statistical?server="+command[1]));
+                        rootNode = mapper.readTree(HttpTool.getData(Main.configProperties.getProperty("config.serverUrl")+"/api/image/valuables/collect?server="+command[1]));
                     switch (rootNode.get("code").asInt()){
                         case 200:
                             dataNode = rootNode.path("data");
