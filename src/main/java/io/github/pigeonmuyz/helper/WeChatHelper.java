@@ -54,7 +54,12 @@ public class WeChatHelper {
         try {
             switch (messageType){
                 case "image":
-                    String fileIdTemp = getFileId(message);
+                    String fileIdTemp;
+                    if(message.contrains("jpg")){
+                        fileIdTemp = getFileIdjpg(message);
+                    }else{
+                        fileIdTemp = getFileId(message);
+                    }
                     log.debug("ImageID: "+fileIdTemp);
                     if (isGroup){
                         HttpTool.postData(wechatRollbackUrl,String.format("{\"action\":\"send_message\",\"params\":{\"detail_type\":\"group\",\"group_id\":\"%s\",\"message\":[{\"type\":\"image\",\"data\":{\"file_id\":\"%s\"}}]}}",wechatId,fileIdTemp));
