@@ -55,7 +55,7 @@ public class WeChatHelper {
             switch (messageType){
                 case "image":
                     String fileIdTemp;
-                    if(message.contrains("jpg")){
+                    if(message.contains("jpg")){
                         fileIdTemp = getFileIdjpg(message);
                     }else{
                         fileIdTemp = getFileId(message);
