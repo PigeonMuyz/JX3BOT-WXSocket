@@ -27,7 +27,20 @@ public class WeChatHelper {
             throw new RuntimeException(e);
         }
     }
-
+/**
+     * 上传文件
+     * @param url 链接
+     * @return 文件id
+     */
+    private static String getFileIdjpg(String url){
+        try {
+            JsonNode jn = new ObjectMapper().readTree(HttpTool.postData("http://pigeon-wechat:8000/",String.format("{\"action\":\"upload_file\",\"params\":{\"type\":\"url\",\"name\":\"1.jpg\",\"url\":\"%s\"}}",url)));
+            log.debug("图片上传成功");
+            return jn.get("data").get("file_id").asText();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
     /**
      * 发送消息
      * @param wechatId
